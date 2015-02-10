@@ -1,4 +1,4 @@
-package me.bigua.comiccollector;
+package me.bigua.comiccollector.Misc;
 
 import android.content.Context;
 import android.content.res.AssetManager;
