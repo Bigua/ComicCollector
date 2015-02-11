@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 
 /**
  * Created by Bigua on 2/10/15.
+ * bigua.kun@gmail.com
  */
+
 public class MainFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
