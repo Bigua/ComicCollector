@@ -22,14 +22,18 @@ public class comicHandler {
     }
 
 
-    public long insertComic(Comic comic) {
+    public Long insertComic(Comic comic) {
         baseHelper = new BaseHelper(this.context);
-        long id = cupboard().withDatabase(baseHelper.getWritableDatabase()).put(comic);
-        return id;
+        return cupboard().withDatabase(
+                baseHelper.getWritableDatabase())
+                .put(comic);
     }
-    public void listComics(){
+
+    public void listComics() {
         baseHelper = new BaseHelper(this.context);
-        List<Comic> comics =  cupboard().withDatabase(baseHelper.getWritableDatabase()).query(Comic.class).list();
+        List<Comic> comics = cupboard().withDatabase(
+                baseHelper.getWritableDatabase())
+                .query(Comic.class).list();
         int i = comics.size();
         Log.w("salvo", String.valueOf(i));
 
