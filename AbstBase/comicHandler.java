@@ -1,0 +1,37 @@
+package me.bigua.comiccollector.AbstBase;
+
+import android.content.Context;
+import android.util.Log;
+import me.bigua.comiccollector.BaseHelper;
+import me.bigua.comiccollector.Models.Comic;
+
+import java.util.List;
+
+import static nl.qbusict.cupboard.CupboardFactory.cupboard;
+
+/**
+ * Created by Bigua on 2/15/15.
+ * bigua.kun@gmail.com
+ */
+public class comicHandler {
+    private Context context;
+    private BaseHelper baseHelper;
+
+    public comicHandler(Context context) {
+        this.context = context;
+    }
+
+
+    public long insertComic(Comic comic) {
+        baseHelper = new BaseHelper(this.context);
+        long id = cupboard().withDatabase(baseHelper.getWritableDatabase()).put(comic);
+        return id;
+    }
+    public void listComics(){
+        baseHelper = new BaseHelper(this.context);
+        List<Comic> comics =  cupboard().withDatabase(baseHelper.getWritableDatabase()).query(Comic.class).list();
+        int i = comics.size();
+        Log.w("salvo", String.valueOf(i));
+
+    }
+}
