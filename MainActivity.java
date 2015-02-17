@@ -23,9 +23,11 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
 //        this.mUserBackground.setImageResource(R.drawable.ic_user_background);
 
 
-        View mCustomHeader = getLayoutInflater().inflate(R.layout.custom_header_user, this.getListView(), false);
+        View mCustomHeader = getLayoutInflater()
+                .inflate(R.layout.custom_header_user, this.getListView(), false);
         ImageView imageView = (ImageView) mCustomHeader.findViewById(R.id.imageView);
-        this.addCustomHeader(mCustomHeader); //This will add the new header and remove the default user header
+        //This will add the new header and remove the default user header
+        this.addCustomHeader(mCustomHeader);
     }
 
 
@@ -39,8 +41,8 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
         // name of the list items
 
         List<String> mListNameItem = new ArrayList<>();
-        mListNameItem.add(0, "lalala");
-        mListNameItem.add(1, "lalala");
+        mListNameItem.add(0, getString(R.string.add_comic));
+        mListNameItem.add(1, getString(R.string.list_comics));
         mListNameItem.add(2, "lalala");
         mListNameItem.add(3, "lalala");
         mListNameItem.add(4, "lalala"); //This item will be a subHeader
@@ -98,29 +100,18 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
 
 
     @Override
-    public void onClickUserPhotoNavigation(View view) {
-
-    }
-
-    @Override
-    public void onClickFooterItemNavigation(View view) {
-
-    }
-
-    @Override
-    public void onPrepareOptionsMenuNavigation(Menu menu, int i, boolean b) {
-
-    }
-
-    @Override
     public void onItemClickNavigation(int position, int container) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager()
+                .beginTransaction();
         switch (position) {
             case 0:
-                fragmentTransaction.replace(R.id.container, MainFragment.newInstance(position + 1)).commit();
+                fragmentTransaction.replace(
+                        R.id.container,
+                        MainFragment.newInstance(position + 1))
+                        .commit();
                 break;
             case 1:
-//                fragmentTransaction.replace(R.id.container, ProfileFragment.newInstance(position + 1)).commit();
+                fragmentTransaction.replace(R.id.container, ListFragment.newInstance(position + 1)).commit();
                 break;
             case 2:
 //                fragmentTransaction.replace(R.id.container, PrescriptionFragment.newInstance(position + 1)).commit();
@@ -135,6 +126,22 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
                 finish();
                 break;
         }
+
+    }
+
+
+    @Override
+    public void onClickUserPhotoNavigation(View view) {
+
+    }
+
+    @Override
+    public void onClickFooterItemNavigation(View view) {
+
+    }
+
+    @Override
+    public void onPrepareOptionsMenuNavigation(Menu menu, int i, boolean b) {
 
     }
 }
