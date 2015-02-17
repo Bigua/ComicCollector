@@ -36,6 +36,5 @@ public class comicHandler {
                 .query(Comic.class).list();
         int i = comics.size();
         Log.w("salvo", String.valueOf(i));
-
     }
 }
