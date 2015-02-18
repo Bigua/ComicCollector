@@ -1,9 +1,8 @@
 package me.bigua.comiccollector;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 import me.bigua.comiccollector.Models.*;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
@@ -30,7 +29,6 @@ public class BaseHelper extends SQLiteOpenHelper {
 
     public void onCreate(SQLiteDatabase db) {
         cupboard().withDatabase(db).createTables();
-        Log.w("criando","as tabelas");
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

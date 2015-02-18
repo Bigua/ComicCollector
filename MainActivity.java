@@ -111,7 +111,10 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
                         .commit();
                 break;
             case 1:
-                fragmentTransaction.replace(R.id.container, ListFragment.newInstance(position + 1)).commit();
+                fragmentTransaction.replace(
+                        R.id.container,
+                        ListFragment.newInstance(position + 1))
+                        .commit();
                 break;
             case 2:
 //                fragmentTransaction.replace(R.id.container, PrescriptionFragment.newInstance(position + 1)).commit();

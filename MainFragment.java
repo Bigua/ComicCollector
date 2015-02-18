@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import me.bigua.comiccollector.AbstBase.comicHandler;
-import me.bigua.comiccollector.Models.Comic;
+import android.widget.EditText;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Bigua on 2/10/15.
@@ -40,22 +42,49 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // do something
-                getValues(v);
+                getValues((Button) v);
             }
         });
         return view;
     }
 
     public void getValues(View view) {
-//        TextView title = (TextView) view.findViewById(R.id.title);
-        Comic comic = new Comic("teste", 11, "capa", "marvel", "barras", 01);
-        Comic comic2 = new Comic("te2", 14, "ca", "mel", "bs", 02);
-        comicHandler ch = new comicHandler(view.getContext());
-        ch.insertComic(comic);
-        ch.insertComic(comic2);
-        ch.listComics();
+        Map<String, String> brute = new HashMap<>();
+        EditText title = (EditText) view.findViewById(R.id.comic_title);
+         Log.wtf("lala", title.toString());
+//        String strtitle = title.getText().toString();
+//        if (TextUtils.isEmpty(strtitle)) {
+//            title.setError("vazio");
+//            return;
+//        } else {
+//            brute.put("title", title.getText().toString());
+//        }
+
+
+//        TextView number = (TextView) view.findViewById(R.id.number);
+//        brute.put("number", number.getText().toString());
+//
+//        TextView author = (TextView) view.findViewById(R.id.author);
+//        brute.put("author", author.getText().toString());
+//
+//        TextView year = (TextView) view.findViewById(R.id.year);
+//        brute.put("year", year.getText().toString());
+//
+//        TextView publisher = (TextView) view.findViewById(R.id.publisher);
+//        brute.put("publisher", publisher.getText().toString());
+
+        this.saveComic(brute);
 
     }
 
+    public void saveComic(Map<String, String> brute) {
+        Log.wtf("bruto", brute.toString());
 
+//        Comic comic = new Comic(brute.get(title) "teste", 11, "capa", "marvel", "barras", 01);
+//        Comic comic2 = new Comic("te2", 14, "ca", "mel", "bs", 02);
+//        comicHandler ch = new comicHandler(view.getContext());
+//        ch.insertComic(comic);
+//        ch.insertComic(comic2);
+//        ch.listComics();
+    }
 }
