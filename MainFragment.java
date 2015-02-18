@@ -51,7 +51,7 @@ public class MainFragment extends Fragment {
     public void getValues(View view) {
         Map<String, String> brute = new HashMap<>();
         EditText title = (EditText) view.findViewById(R.id.comic_title);
-         Log.wtf("lala", title.toString());
+         Log.wtf("lala", title.getText().toString());
 //        String strtitle = title.getText().toString();
 //        if (TextUtils.isEmpty(strtitle)) {
 //            title.setError("vazio");
