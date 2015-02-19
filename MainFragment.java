@@ -42,15 +42,15 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // do something
-                getValues(v);
+                getValues();
             }
         });
         return view;
     }
 
-    public void getValues(View view) {
+    public void getValues() {
         Map<String, String> brute = new HashMap<>();
-        EditText title = (EditText) view.findViewById(R.id.comic_title);
+        EditText title = (EditText) getView().findViewById(R.id.comic_title);
         Log.wtf("lala", title.getText().toString());
 //        String strtitle = title.getText().toString();
 //        if (TextUtils.isEmpty(strtitle)) {
