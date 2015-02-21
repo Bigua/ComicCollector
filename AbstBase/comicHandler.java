@@ -29,12 +29,13 @@ public class comicHandler {
                 .put(comic);
     }
 
-    public void listComics() {
+    public List<Comic> listComics() {
         baseHelper = new BaseHelper(this.context);
         List<Comic> comics = cupboard().withDatabase(
                 baseHelper.getWritableDatabase())
                 .query(Comic.class).list();
         int i = comics.size();
         Log.w("salvo", String.valueOf(i));
+        return comics;
     }
 }

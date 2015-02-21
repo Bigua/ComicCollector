@@ -43,7 +43,7 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
         List<String> mListNameItem = new ArrayList<>();
         mListNameItem.add(0, getString(R.string.add_comic));
         mListNameItem.add(1, getString(R.string.list_comics));
-        mListNameItem.add(2, "lalala");
+        mListNameItem.add(2, "Wishlist");
         mListNameItem.add(3, "lalala");
         mListNameItem.add(4, "lalala"); //This item will be a subHeader
         mListNameItem.add(5, "lalala");

@@ -12,18 +12,32 @@ public class Comic {
     private String cover;
     private String publisher;
     private String barcode;
+    private String type;
+    private String lang;
     private int number;
+    private Boolean complete;
 
     public Comic() {
     }
 
-    public Comic(String name, int year, String cover, String publisher, String barcode, int number) {
+    public Comic(String name,
+                 int year,
+                 String cover,
+                 String publisher,
+                 String barcode,
+                 int number,
+                 String type,
+                 String lang,
+                 Boolean complete) {
         this.name = name;
         this.year = year;
         this.cover = cover;
         this.publisher = publisher;
         this.barcode = barcode;
         this.number = number;
+        this.lang = lang;
+        this.type = type;
+        this.complete = complete;
     }
 
 
@@ -79,5 +93,27 @@ public class Comic {
         this.number = number;
     }
 
+    public String getType() {
+        return type;
+    }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getLang() {
+        return lang;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
+    }
+
+    public Boolean getComplete() {
+        return complete;
+    }
+
+    public void setComplete(Boolean complete) {
+        this.complete = complete;
+    }
 }
