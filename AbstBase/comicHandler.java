@@ -1,7 +1,6 @@
 package me.bigua.comiccollector.AbstBase;
 
 import android.content.Context;
-import android.util.Log;
 import me.bigua.comiccollector.BaseHelper;
 import me.bigua.comiccollector.Models.Comic;
 
@@ -35,7 +34,6 @@ public class comicHandler {
                 baseHelper.getWritableDatabase())
                 .query(Comic.class).list();
         int i = comics.size();
-        Log.w("salvo", String.valueOf(i));
         return comics;
     }
 }

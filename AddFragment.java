@@ -15,7 +15,7 @@ import java.util.Map;
  * bigua.kun@gmail.com
  */
 
-public class MainFragment extends Fragment {
+public class AddFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -28,8 +28,8 @@ public class MainFragment extends Fragment {
     private EditText lang;
     private EditText type;
 
-    public static MainFragment newInstance(int sectionNumber) {
-        MainFragment fragment = new MainFragment();
+    public static AddFragment newInstance(int sectionNumber) {
+        AddFragment fragment = new AddFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
@@ -41,7 +41,7 @@ public class MainFragment extends Fragment {
                              ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(
-                R.layout.fragment_main,
+                R.layout.fragment_add,
                 container, false);
 
         comic_title = (EditText) view.findViewById(R.id.comic_title);
@@ -71,7 +71,7 @@ public class MainFragment extends Fragment {
 
 
         if (StringUtils.isBlank(comic_title.getText())) {
-            comic_title.setError("campo vazio");
+            comic_title.setError("campo obrigatório");
             return;
         } else {
             raw.put("title", comic_title.getText().toString().trim());
@@ -108,20 +108,12 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
 
+        menu.clear();
         inflater.inflate(R.menu.menu_main, menu);
 
-
-//        final MenuItem menuItem = menu.findItem(R.id.menu_add);
-//        menuItem.setVisible(true);
-        final MenuItem settings = menu.findItem(R.id.action_settings);
+        final MenuItem settings = menu.findItem(R.id.menu_settings);
         settings.setVisible(false);
-//        MenuItem item;
-//        item = menu.add("lalala");
-//        item.setIcon(R.drawable.abc_ic_go_search_api_mtrl_alpha);
-
-        Log.wtf("chegou", "menu");
     }
 
     @Override
@@ -135,7 +127,7 @@ public class MainFragment extends Fragment {
 
                 break;
 
-            case R.id.action_settings:
+            case R.id.menu_settings:
 //                mSearchCheck = true;
 //                Toast.makeText(getActivity(), R.string.search, Toast.LENGTH_SHORT).show();
                 break;

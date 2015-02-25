@@ -93,7 +93,7 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.menu_settings) {
             return true;
         }
 
@@ -109,7 +109,7 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
             case 0:
                 fragmentTransaction.replace(
                         R.id.container,
-                        MainFragment.newInstance(position + 1))
+                        AddFragment.newInstance(position + 1))
                         .commit();
                 break;
             case 1:
