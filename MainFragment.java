@@ -2,13 +2,10 @@ package me.bigua.comiccollector;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.*;
 import android.widget.EditText;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,25 +52,29 @@ public class MainFragment extends Fragment {
         lang = (EditText) view.findViewById(R.id.lang);
         type = (EditText) view.findViewById(R.id.type);
 
-
-        Button button = (Button) view.findViewById(R.id.save);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getValues(v);
-            }
-        });
+//
+//        Button button = (Button) view.findViewById(R.id.save);
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getValues(v);
+//            }
+//        });
+        setHasOptionsMenu(true);
         return view;
     }
 
-    public void getValues(View v) {
+    public void getValues() {
+
+
         Map<String, String> raw = new HashMap<>();
-        String strtitle = comic_title.getText().toString().trim();
-        if (TextUtils.isEmpty(strtitle)) {
+
+
+        if (StringUtils.isBlank(comic_title.getText())) {
             comic_title.setError("campo vazio");
             return;
         } else {
-            raw.put("title", comic_title.getText().toString());
+            raw.put("title", comic_title.getText().toString().trim());
         }
 
 
@@ -102,5 +103,43 @@ public class MainFragment extends Fragment {
 //        ch.insertComic(comic);
 //        ch.insertComic(comic2);
 //        ch.listComics();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+
+        inflater.inflate(R.menu.menu_main, menu);
+
+
+//        final MenuItem menuItem = menu.findItem(R.id.menu_add);
+//        menuItem.setVisible(true);
+        final MenuItem settings = menu.findItem(R.id.action_settings);
+        settings.setVisible(false);
+//        MenuItem item;
+//        item = menu.add("lalala");
+//        item.setIcon(R.drawable.abc_ic_go_search_api_mtrl_alpha);
+
+        Log.wtf("chegou", "menu");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.menu_add:
+//                Toast.makeText(getActivity(), "botao ", Toast.LENGTH_SHORT).show();
+                this.getValues();
+
+                break;
+
+            case R.id.action_settings:
+//                mSearchCheck = true;
+//                Toast.makeText(getActivity(), R.string.search, Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return true;
     }
 }

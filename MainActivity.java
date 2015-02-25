@@ -37,7 +37,7 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
 
         // set listener {required}
         this.setNavigationListener(this);
-
+        this.setDefaultStartPositionNavigation(1);
         // name of the list items
 
         List<String> mListNameItem = new ArrayList<>();
@@ -80,6 +80,8 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        final MenuItem menuItem = menu.findItem(R.id.menu_add);
+        menuItem.setVisible(false);
         return true;
     }
 
