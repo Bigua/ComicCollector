@@ -18,7 +18,7 @@ public class ListFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     private ListView listView;
-    private ComicListAdapter comicListAdapter;
+    private ListAdapter listAdapter;
     private comicHandler comicHandler;
 
     public static ListFragment newInstance(int sectionNumber) {
@@ -40,11 +40,11 @@ public class ListFragment extends Fragment {
 
         listView = (ListView) view.findViewById(R.id.listView);
         comicHandler = new comicHandler(this.getActivity());
-        comicListAdapter = new ComicListAdapter(
-                getActivity(),
+        listAdapter = new ListAdapter(
+                getActivity().getBaseContext(),
                 R.layout.item_list,
                 comicHandler.listComics());
-        listView.setAdapter(comicListAdapter);
+        listView.setAdapter(listAdapter);
         return view;
     }
 }

@@ -5,7 +5,8 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.*;
 import android.widget.EditText;
-import org.apache.commons.lang3.StringUtils;
+import me.bigua.comiccollector.AbstBase.comicHandler;
+import me.bigua.comiccollector.Models.Comic;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,30 +53,22 @@ public class AddFragment extends Fragment {
         lang = (EditText) view.findViewById(R.id.lang);
         type = (EditText) view.findViewById(R.id.type);
 
-//
-//        Button button = (Button) view.findViewById(R.id.save);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                getValues(v);
-//            }
-//        });
         setHasOptionsMenu(true);
         return view;
     }
 
-    public void getValues() {
+    public void getValues(View view) {
 
 
         Map<String, String> raw = new HashMap<>();
-
-
-        if (StringUtils.isBlank(comic_title.getText())) {
-            comic_title.setError("campo obrigatório");
-            return;
-        } else {
-            raw.put("title", comic_title.getText().toString().trim());
-        }
+//
+//
+//        if (StringUtils.isBlank(comic_title.getText())) {
+//            comic_title.setError("campo obrigatório");
+//            return;
+//        } else {
+//            raw.put("title", comic_title.getText().toString().trim());
+//        }
 
 
 //        TextView number = (TextView) view.findViewById(R.id.number);
@@ -90,17 +83,19 @@ public class AddFragment extends Fragment {
 //        TextView publisher = (TextView) view.findViewById(R.id.publisher);
 //        raw.put("publisher", publisher.getText().toString());
 
-        this.saveComic(raw);
+        this.saveComic(view,raw);
 
     }
 
-    public void saveComic(Map<String, String> raw) {
-        Log.wtf("bruto", raw.toString());
+    public void saveComic(View view, Map<String, String> raw) {
+//        Log.wtf("bruto", raw.toString());
 
 //        Comic comic = new Comic(brute.get(title) "teste", 11, "capa", "marvel", "barras", 01);
 //        Comic comic2 = new Comic("te2", 14, "ca", "mel", "bs", 02);
-//        comicHandler ch = new comicHandler(view.getContext());
-//        ch.insertComic(comic);
+        Comic comic = new Comic();
+        comicHandler ch = new comicHandler(view.getContext());
+        Long id = ch.insertComic(comic);
+        Log.wtf("id inserido", String.valueOf(id));
 //        ch.insertComic(comic2);
 //        ch.listComics();
     }
@@ -123,7 +118,7 @@ public class AddFragment extends Fragment {
 
             case R.id.menu_add:
 //                Toast.makeText(getActivity(), "botao ", Toast.LENGTH_SHORT).show();
-                this.getValues();
+                this.getValues(getView());
 
                 break;
 
