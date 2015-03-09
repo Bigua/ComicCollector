@@ -1,12 +1,16 @@
 package me.bigua.comiccollector;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 /**
  * Created by Bigua on 3/1/15.
@@ -14,8 +18,6 @@ import android.widget.Button;
  */
 public class ChooseFragment extends Fragment implements View.OnClickListener {
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private Button barcode;
-    private Button manual;
 
     public static ChooseFragment newInstance(int sectionNumber) {
         ChooseFragment fragment = new ChooseFragment();
@@ -32,20 +34,33 @@ public class ChooseFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(
                 R.layout.fragment_choose,
                 container, false);
-        barcode = (Button) view.findViewById(R.id.barcode);
-        manual = (Button) view.findViewById(R.id.manual);
+        Button barcode = (Button) view.findViewById(R.id.barcode);
+        Button manual = (Button) view.findViewById(R.id.manual);
         manual.setOnClickListener(this);
+        barcode.setOnClickListener(this);
 
         return view;
     }
 
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (scanResult != null) {
+            // handle scan result
+            Log.wtf("scanresult", String.valueOf(scanResult));
+        }
+        // else continue with any other code you need in the method
+    }
+
     public void onClick(View v) {
+        // Create new fragment and transaction
+        Fragment newFragment;
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
         switch (v.getId()) {
+
             case R.id.manual:
-                // Create new fragment and transaction
-                Fragment newFragment = new AddFragment();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                newFragment = new AddFragment();
                 // Replace whatever is in the fragment_container view with this fragment,
                 transaction.replace(R.id.container, newFragment);
                 // and add the transaction to the back stack
@@ -53,6 +68,13 @@ public class ChooseFragment extends Fragment implements View.OnClickListener {
                 // Commit the transaction
                 transaction.commit();
                 break;
+            case R.id.barcode:
+                IntentIntegrator integrator = new IntentIntegrator(getActivity());
+                integrator.initiateScan();
+                break;
+
         }
+
+
     }
 }

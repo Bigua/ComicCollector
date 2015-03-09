@@ -1,4 +1,4 @@
-package me.bigua.comiccollector;
+package me.bigua.comiccollector.Models;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

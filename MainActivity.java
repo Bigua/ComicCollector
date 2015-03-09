@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import br.liveo.interfaces.NavigationLiveoListener;
 import br.liveo.navigationliveo.NavigationLiveo;
 
@@ -20,16 +19,16 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
 //        this.mUserName.setText("Rudson Lima");
 //        this.mUserEmail.setText("rudsonlive@gmail.com");
 //        this.mUserPhoto.setImageResource(R.drawable.ic_rudsonlive);
-//        this.mUserBackground.setImageResource(R.drawable.ic_user_background);
+//        this.mUserBackground.setImageResource(R.drawable.ic_rudsonlive);
 
 
-        View mCustomHeader = getLayoutInflater().inflate(
-                R.layout.custom_header_user,
-                this.getListView(), false
-        );
-        ImageView imageView = (ImageView) mCustomHeader.findViewById(R.id.imageView);
-        //This will add the new header and remove the default user header
-        this.addCustomHeader(mCustomHeader);
+//        View mCustomHeader = getLayoutInflater().inflate(
+//                R.layout.custom_header_user,
+//                this.getListView(), false
+//        );
+//        ImageView imageView = (ImageView) mCustomHeader.findViewById(R.id.imageView);
+//        //This will add the new header and remove the default user header
+//        this.addCustomHeader(mCustomHeader);
     }
 
 
@@ -120,7 +119,6 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
                         .commit();
                 break;
             case 2:
-//                fragmentTransaction.replace(R.id.container, PrescriptionFragment.newInstance(position + 1)).commit();
                 break;
             case 3:
                 break;

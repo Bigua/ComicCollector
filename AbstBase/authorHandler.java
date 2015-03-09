@@ -1,7 +1,7 @@
 package me.bigua.comiccollector.AbstBase;
 
 import android.content.Context;
-import me.bigua.comiccollector.BaseHelper;
+import me.bigua.comiccollector.Models.BaseHelper;
 import me.bigua.comiccollector.Models.Author;
 
 import java.util.List;
