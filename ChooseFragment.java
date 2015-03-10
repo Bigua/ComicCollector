@@ -48,10 +48,10 @@ public class ChooseFragment extends Fragment implements View.OnClickListener {
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (scanResult != null) {
             // handle scan result
-            Log.wtf("scanresult", String.valueOf(scanResult));
-        }
-        // else continue with any other code you need in the method
+            String re = scanResult.getContents();
+            Log.d("code", re);        }
     }
+
 
     public void onClick(View v) {
         // Create new fragment and transaction
@@ -69,8 +69,7 @@ public class ChooseFragment extends Fragment implements View.OnClickListener {
                 transaction.commit();
                 break;
             case R.id.barcode:
-                IntentIntegrator integrator = new IntentIntegrator(getActivity());
-                integrator.initiateScan();
+                IntentIntegrator.forSupportFragment(this).initiateScan();
                 break;
 
         }
