@@ -40,11 +40,10 @@ public class ListFragment extends Fragment {
 
         listView = (ListView) view.findViewById(R.id.listView);
         comicHandler = new comicHandler(this.getActivity());
-        listAdapter = new ListAdapter(
-                getActivity().getBaseContext(),
-                R.layout.item_list,
-                comicHandler.listComics());
+        listAdapter = new ListAdapter(getActivity().getBaseContext(), R.layout.item_list, comicHandler.listComics());
         listView.setAdapter(listAdapter);
+        ((MainActivity) getActivity()).setActionBarTitle(R.string.list_comics);
+
         return view;
     }
 }

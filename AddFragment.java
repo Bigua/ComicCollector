@@ -54,6 +54,10 @@ public class AddFragment extends Fragment {
         type = (EditText) view.findViewById(R.id.type);
 
         setHasOptionsMenu(true);
+
+        ((MainActivity) getActivity())
+                .setActionBarTitle(R.string.add_comic);
+
         return view;
     }
 

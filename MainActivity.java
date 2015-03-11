@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import br.liveo.interfaces.NavigationLiveoListener;
 import br.liveo.navigationliveo.NavigationLiveo;
 
@@ -22,13 +23,13 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
 //        this.mUserBackground.setImageResource(R.drawable.ic_rudsonlive);
 
 
-//        View mCustomHeader = getLayoutInflater().inflate(
-//                R.layout.custom_header_user,
-//                this.getListView(), false
-//        );
-//        ImageView imageView = (ImageView) mCustomHeader.findViewById(R.id.imageView);
+        View mCustomHeader = getLayoutInflater().inflate(
+                R.layout.custom_header_user,
+                this.getListView(), false
+        );
+        ImageView imageView = (ImageView) mCustomHeader.findViewById(R.id.imageView);
 //        //This will add the new header and remove the default user header
-//        this.addCustomHeader(mCustomHeader);
+        this.addCustomHeader(mCustomHeader);
     }
 
 
@@ -131,6 +132,10 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
                 break;
         }
 
+    }
+
+    public void setActionBarTitle(int title) {
+        getSupportActionBar().setTitle(title);
     }
 
 

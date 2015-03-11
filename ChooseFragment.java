@@ -39,6 +39,8 @@ public class ChooseFragment extends Fragment implements View.OnClickListener {
         manual.setOnClickListener(this);
         barcode.setOnClickListener(this);
 
+        ((MainActivity) getActivity()).setActionBarTitle(R.string.choose_comic);
+
         return view;
     }
 
