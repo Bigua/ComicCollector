@@ -49,11 +49,17 @@ public class ChooseFragment extends Fragment implements View.OnClickListener {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (scanResult != null) {
-            // handle scan result
-            String re = scanResult.getContents();
-            Log.d("code", re);        }
+            String contents = scanResult.getContents();
+            if (contents != null)
+                Log.wtf("aqui", " barcode");
+            else
+                finish();
+        }
     }
 
+    private void finish() {
+        Log.wtf("finish", "him");
+    }
 
     public void onClick(View v) {
         // Create new fragment and transaction
