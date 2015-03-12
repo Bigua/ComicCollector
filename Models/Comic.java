@@ -16,6 +16,7 @@ public class Comic {
     private String lang;
     private int number;
     private Boolean complete;
+    private Boolean have;
 
     public Comic() {
     }
@@ -28,7 +29,8 @@ public class Comic {
                  int number,
                  String type,
                  String lang,
-                 Boolean complete) {
+                 Boolean complete,
+                 Boolean have) {
         this.name = name;
         this.year = year;
         this.cover = cover;
@@ -38,6 +40,8 @@ public class Comic {
         this.lang = lang;
         this.type = type;
         this.complete = complete;
+        this.have = have;
+
     }
 
 
