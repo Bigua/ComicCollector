@@ -1,4 +1,4 @@
-package me.bigua.comiccollector.Models;
+package me.bigua.comiccollector.AbstBase;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,11 +11,11 @@ import static nl.qbusict.cupboard.CupboardFactory.cupboard;
  * Created by Bigua on 2/10/15.
  * bigua.kun@gmail.com
  */
-public class BaseHelper extends SQLiteOpenHelper {
+public class BaseMaker extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "comicBase.db";
     private static final int DATABASE_VERSION = 1;
 
-    public BaseHelper(Context context) {
+    public BaseMaker(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

@@ -1,7 +1,6 @@
 package me.bigua.comiccollector.AbstBase;
 
 import android.content.Context;
-import me.bigua.comiccollector.Models.BaseHelper;
 import me.bigua.comiccollector.Models.comicFamily;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
@@ -13,16 +12,16 @@ import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 public class comicFamilyHandler {
 
     private Context context;
-    private BaseHelper baseHelper;
+    private BaseMaker baseMaker;
 
     public comicFamilyHandler(Context context) {
         this.context = context;
     }
 
     public Long insertComicFamily(comicFamily comicFamily) {
-        baseHelper = new BaseHelper(this.context);
+        baseMaker = new BaseMaker(this.context);
         return cupboard().withDatabase(
-                baseHelper.getWritableDatabase())
+                baseMaker.getWritableDatabase())
                 .put(comicFamily);
     }
 

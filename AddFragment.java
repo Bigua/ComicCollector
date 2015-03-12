@@ -7,6 +7,7 @@ import android.view.*;
 import android.widget.EditText;
 import me.bigua.comiccollector.AbstBase.comicHandler;
 import me.bigua.comiccollector.Models.Comic;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -65,43 +66,43 @@ public class AddFragment extends Fragment {
 
 
         Map<String, String> raw = new HashMap<>();
-//
-//
-//        if (StringUtils.isBlank(comic_title.getText())) {
-//            comic_title.setError("campo obrigatório");
-//            return;
-//        } else {
-//            raw.put("title", comic_title.getText().toString().trim());
-//        }
 
+        if (StringUtils.isBlank(comic_title.getText())) {
+            comic_title.setError(getText(R.string.not_empty));
+            return;
+        } else {
+            raw.put("title", comic_title.getText().toString().trim());
+        }
 
-//        TextView number = (TextView) view.findViewById(R.id.number);
-//        raw.put("number", number.getText().toString());
-//
-//        TextView author = (TextView) view.findViewById(R.id.author);
-//        raw.put("author", author.getText().toString());
-//
-//        TextView year = (TextView) view.findViewById(R.id.year);
-//        raw.put("year", year.getText().toString());
-//
-//        TextView publisher = (TextView) view.findViewById(R.id.publisher);
-//        raw.put("publisher", publisher.getText().toString());
+        if (StringUtils.isNotBlank(num_comic.getText())) {
+            raw.put("number", num_comic.getText().toString().trim());
+        }
 
-        this.saveComic(view,raw);
+        if (StringUtils.isNotBlank(author.getText())) {
+            raw.put("author", author.getText().toString().trim());
+        }
+
+        if (StringUtils.isNotBlank(year.getText())) {
+            raw.put("year", year.getText().toString().trim());
+        }
+        if (StringUtils.isNotBlank(publisher.getText())) {
+            raw.put("publisher", publisher.getText().toString().trim());
+        }
+
+        if (StringUtils.isNotBlank(lang.getText())) {
+            raw.put("lang", lang.getText().toString().trim());
+        }
+
+        if (StringUtils.isNotBlank(type.getText())) {
+            raw.put("type", type.getText().toString().trim());
+        }
+
+        this.saveComic(view, raw);
 
     }
 
     public void saveComic(View view, Map<String, String> raw) {
-//        Log.wtf("bruto", raw.toString());
 
-//        Comic comic = new Comic(brute.get(title) "teste", 11, "capa", "marvel", "barras", 01);
-//        Comic comic2 = new Comic("te2", 14, "ca", "mel", "bs", 02);
-        Comic comic = new Comic();
-        comicHandler ch = new comicHandler(view.getContext());
-        Long id = ch.insertComic(comic);
-        Log.wtf("id inserido", String.valueOf(id));
-//        ch.insertComic(comic2);
-//        ch.listComics();
     }
 
     @Override

@@ -1,7 +1,6 @@
 package me.bigua.comiccollector.AbstBase;
 
 import android.content.Context;
-import me.bigua.comiccollector.Models.BaseHelper;
 import me.bigua.comiccollector.Models.Author;
 
 import java.util.List;
@@ -14,22 +13,22 @@ import static nl.qbusict.cupboard.CupboardFactory.cupboard;
  */
 public class authorHandler {
     private Context context;
-    private BaseHelper baseHelper;
+    private BaseMaker baseMaker;
 
     public authorHandler(Context context) {
         this.context = context;
     }
 
     public Long insertAuthor(Author author) {
-        baseHelper = new BaseHelper(this.context);
+        baseMaker = new BaseMaker(this.context);
         return cupboard().withDatabase(
-                baseHelper.getWritableDatabase())
+                baseMaker.getWritableDatabase())
                 .put(author);
     }
     public void listAuthors(){
-        baseHelper = new BaseHelper(this.context);
+        baseMaker = new BaseMaker(this.context);
         List<Author> authors = cupboard().withDatabase(
-                baseHelper.getWritableDatabase())
+                baseMaker.getWritableDatabase())
                 .query(Author.class).list();
     }
 }

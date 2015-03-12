@@ -14,7 +14,7 @@ public class Comic {
     private String barcode;
     private String type;
     private String lang;
-    private int number;
+    private String number;
     private Boolean complete;
     private Boolean have;
 
@@ -26,7 +26,7 @@ public class Comic {
                  String cover,
                  String publisher,
                  String barcode,
-                 int number,
+                 String number,
                  String type,
                  String lang,
                  Boolean complete,
@@ -89,11 +89,11 @@ public class Comic {
         this.barcode = barcode;
     }
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
