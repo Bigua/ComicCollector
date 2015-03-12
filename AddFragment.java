@@ -2,11 +2,9 @@ package me.bigua.comiccollector;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.*;
 import android.widget.EditText;
-import me.bigua.comiccollector.AbstBase.comicHandler;
-import me.bigua.comiccollector.Models.Comic;
+import me.bigua.comiccollector.AbstBase.DataProxy;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
@@ -102,7 +100,8 @@ public class AddFragment extends Fragment {
     }
 
     public void saveComic(View view, Map<String, String> raw) {
-
+        DataProxy dataproxy = new DataProxy(view.getContext());
+        dataproxy.saveComic(raw);
     }
 
     @Override
