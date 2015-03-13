@@ -2,7 +2,6 @@ package me.bigua.comiccollector;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.*;
 import android.view.animation.AlphaAnimation;
 import android.widget.*;
@@ -150,7 +149,6 @@ public class AddFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Log.wtf("click", "fields");
         switch (v.getId()) {
             case R.id.fields_add:
                 fields.setVisibility(View.GONE);
@@ -167,6 +165,7 @@ public class AddFragment extends Fragment implements View.OnClickListener {
                         scroll.fullScroll(ScrollView.FOCUS_DOWN);
                     }
                 });
+
                 break;
         }
     }
