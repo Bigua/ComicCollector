@@ -2,8 +2,10 @@ package me.bigua.comiccollector;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.*;
-import android.widget.EditText;
+import android.view.animation.AlphaAnimation;
+import android.widget.*;
 import me.bigua.comiccollector.AbstBase.DataProxy;
 import org.apache.commons.lang3.StringUtils;
 
@@ -15,18 +17,22 @@ import java.util.Map;
  * bigua.kun@gmail.com
  */
 
-public class AddFragment extends Fragment {
+public class AddFragment extends Fragment implements View.OnClickListener {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
 
-    private EditText comic_title;
-    private EditText num_comic;
+    private EditText title;
+    private EditText num;
     private EditText author;
     private EditText year;
-    private EditText publisher;
+    private EditText publi;
     private EditText lang;
     private EditText type;
+    private Switch wish;
+    private TextView fields;
+    private LinearLayout layout;
+    private ScrollView scroll;
 
     public static AddFragment newInstance(int sectionNumber) {
         AddFragment fragment = new AddFragment();
@@ -44,13 +50,18 @@ public class AddFragment extends Fragment {
                 R.layout.fragment_add,
                 container, false);
 
-        comic_title = (EditText) view.findViewById(R.id.comic_title);
-        num_comic = (EditText) view.findViewById(R.id.num_comic);
+        title = (EditText) view.findViewById(R.id.comic_title);
+        num = (EditText) view.findViewById(R.id.num_comic);
         author = (EditText) view.findViewById(R.id.author);
         year = (EditText) view.findViewById(R.id.year);
-        publisher = (EditText) view.findViewById(R.id.publisher);
+        publi = (EditText) view.findViewById(R.id.publisher);
         lang = (EditText) view.findViewById(R.id.lang);
         type = (EditText) view.findViewById(R.id.type);
+        wish = (Switch) view.findViewById(R.id.wish_list);
+        fields = (TextView) view.findViewById(R.id.fields_add);
+        scroll = (ScrollView) view.findViewById(R.id.scrollView);
+        layout = (LinearLayout) view.findViewById(R.id.more_fields);
+        fields.setOnClickListener(this);
 
         setHasOptionsMenu(true);
 
@@ -64,16 +75,19 @@ public class AddFragment extends Fragment {
 
 
         Map<String, String> raw = new HashMap<>();
-
-        if (StringUtils.isBlank(comic_title.getText())) {
-            comic_title.setError(getText(R.string.not_empty));
-            return;
-        } else {
-            raw.put("title", comic_title.getText().toString().trim());
+        if (wish.isChecked()) {
+            raw.put("wishlist", "true");
         }
 
-        if (StringUtils.isNotBlank(num_comic.getText())) {
-            raw.put("number", num_comic.getText().toString().trim());
+        if (StringUtils.isBlank(title.getText())) {
+            title.setError(getText(R.string.not_empty));
+            return;
+        } else {
+            raw.put("title", title.getText().toString().trim());
+        }
+
+        if (StringUtils.isNotBlank(num.getText())) {
+            raw.put("number", num.getText().toString().trim());
         }
 
         if (StringUtils.isNotBlank(author.getText())) {
@@ -83,8 +97,8 @@ public class AddFragment extends Fragment {
         if (StringUtils.isNotBlank(year.getText())) {
             raw.put("year", year.getText().toString().trim());
         }
-        if (StringUtils.isNotBlank(publisher.getText())) {
-            raw.put("publisher", publisher.getText().toString().trim());
+        if (StringUtils.isNotBlank(publi.getText())) {
+            raw.put("publi", publi.getText().toString().trim());
         }
 
         if (StringUtils.isNotBlank(lang.getText())) {
@@ -133,4 +147,29 @@ public class AddFragment extends Fragment {
         }
         return true;
     }
+
+    @Override
+    public void onClick(View v) {
+        Log.wtf("click", "fields");
+        switch (v.getId()) {
+            case R.id.fields_add:
+                fields.setVisibility(View.GONE);
+                AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
+                fadeIn.setDuration(1200);
+                fadeIn.setFillAfter(true);
+                layout.setVisibility(View.VISIBLE);
+                layout.startAnimation(fadeIn);
+
+                scroll.post(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        scroll.fullScroll(ScrollView.FOCUS_DOWN);
+                    }
+                });
+                break;
+        }
+    }
+
 }
+

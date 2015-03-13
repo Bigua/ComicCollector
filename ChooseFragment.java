@@ -61,6 +61,7 @@ public class ChooseFragment extends Fragment implements View.OnClickListener {
         Log.wtf("finish", "him");
     }
 
+    @Override
     public void onClick(View v) {
         // Create new fragment and transaction
         Fragment newFragment;

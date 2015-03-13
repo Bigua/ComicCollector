@@ -23,8 +23,8 @@ public class BaseMaker extends SQLiteOpenHelper {
         cupboard().register(Comic.class);
         cupboard().register(Author.class);
         cupboard().register(comicAuthor.class);
-        cupboard().register(comicFamily.class);
-        cupboard().register(Family.class);
+        cupboard().register(comicGalaxy.class);
+        cupboard().register(Galaxy.class);
     }
 
     public void onCreate(SQLiteDatabase db) {
