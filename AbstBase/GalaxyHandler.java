@@ -19,14 +19,14 @@ public class GalaxyHandler {
         this.context = context;
     }
 
-    public Long insertFamily(Galaxy galaxy) {
+    public Long insertGalaxy(Galaxy galaxy) {
         baseMaker = new BaseMaker(this.context);
         return cupboard().withDatabase(
                 baseMaker.getWritableDatabase())
                 .put(galaxy);
     }
 
-    public List<Galaxy> listFamily() {
+    public List<Galaxy> listGalaxy() {
         baseMaker = new BaseMaker(this.context);
         List<Galaxy> galaxy = cupboard().withDatabase(
                 baseMaker.getWritableDatabase())

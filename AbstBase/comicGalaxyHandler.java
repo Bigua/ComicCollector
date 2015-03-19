@@ -18,7 +18,7 @@ public class comicGalaxyHandler {
         this.context = context;
     }
 
-    public Long insertComicFamily(comicGalaxy comicGalaxy) {
+    public Long insertComicGalaxy(comicGalaxy comicGalaxy) {
         baseMaker = new BaseMaker(this.context);
         return cupboard().withDatabase(
                 baseMaker.getWritableDatabase())

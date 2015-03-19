@@ -8,4 +8,11 @@ public class Author {
     private Long _id;
     private String name;
     private String type;
+
+    public Author() {
+    }
+
+    public Author(String name) {
+        this.name = name;
+    }
 }

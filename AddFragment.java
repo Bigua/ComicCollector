@@ -21,17 +21,23 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     private static final String ARG_SECTION_NUMBER = "section_number";
 
 
+    private Switch wishlist;
     private EditText title;
     private EditText num;
-    private EditText author;
-    private EditText year;
-    private EditText publi;
-    private EditText lang;
     private EditText type;
+    private EditText author;
+    private Switch complete;
+    private EditText Galaxy;
+    private EditText Universe;
+    private EditText publi;
+    private EditText year;
+    private EditText lang;
+
     private Switch wish;
     private TextView fields;
     private LinearLayout layout;
     private ScrollView scroll;
+//    private TextView success;
 
     public static AddFragment newInstance(int sectionNumber) {
         AddFragment fragment = new AddFragment();
@@ -42,12 +48,8 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater,
-                             ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(
-                R.layout.fragment_add,
-                container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_add, container, false);
 
         title = (EditText) view.findViewById(R.id.comic_title);
         num = (EditText) view.findViewById(R.id.num_comic);
@@ -60,12 +62,13 @@ public class AddFragment extends Fragment implements View.OnClickListener {
         fields = (TextView) view.findViewById(R.id.fields_add);
         scroll = (ScrollView) view.findViewById(R.id.scrollView);
         layout = (LinearLayout) view.findViewById(R.id.more_fields);
+//        success = (TextView) view.findViewById(R.id.success);
+
         fields.setOnClickListener(this);
 
         setHasOptionsMenu(true);
 
-        ((MainActivity) getActivity())
-                .setActionBarTitle(R.string.add_comic);
+        ((MainActivity) getActivity()).setActionBarTitle(R.string.add_comic);
 
         return view;
     }
@@ -82,7 +85,11 @@ public class AddFragment extends Fragment implements View.OnClickListener {
             title.setError(getText(R.string.not_empty));
             return;
         } else {
-            raw.put("title", title.getText().toString().trim());
+            raw.put("name", title.getText().toString().trim());
+        }
+
+        if (StringUtils.isNotBlank(year.getText())) {
+            raw.put("year", year.getText().toString().trim());
         }
 
         if (StringUtils.isNotBlank(num.getText())) {
@@ -93,9 +100,6 @@ public class AddFragment extends Fragment implements View.OnClickListener {
             raw.put("author", author.getText().toString().trim());
         }
 
-        if (StringUtils.isNotBlank(year.getText())) {
-            raw.put("year", year.getText().toString().trim());
-        }
         if (StringUtils.isNotBlank(publi.getText())) {
             raw.put("publi", publi.getText().toString().trim());
         }
@@ -114,7 +118,9 @@ public class AddFragment extends Fragment implements View.OnClickListener {
 
     public void saveComic(View view, Map<String, String> raw) {
         DataProxy dataproxy = new DataProxy(view.getContext());
-        dataproxy.saveComic(raw);
+        dataproxy.persistComic(raw);
+        Scroll(ScrollView.FOCUS_UP);
+//        comeIn(success);
     }
 
     @Override
@@ -151,24 +157,38 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fields_add:
-                fields.setVisibility(View.GONE);
-                AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
-                fadeIn.setDuration(1200);
-                fadeIn.setFillAfter(true);
-                layout.setVisibility(View.VISIBLE);
-                layout.startAnimation(fadeIn);
-
-                scroll.post(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        scroll.fullScroll(ScrollView.FOCUS_DOWN);
-                    }
-                });
-
+                goodBye(fields);
+                comeIn(layout);
+                Scroll(ScrollView.FOCUS_DOWN);
                 break;
+
         }
     }
 
+    public void Scroll(final int roll) {
+        scroll.post(new Runnable() {
+
+            @Override
+            public void run() {
+                scroll.fullScroll(roll);
+            }
+        });
+    }
+
+    public void comeIn(View v) {
+        AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
+        fadeIn.setDuration(1200);
+        fadeIn.setFillAfter(true);
+        v.startAnimation(fadeIn);
+        v.setVisibility(View.VISIBLE);
+    }
+
+    public void goodBye(View v) {
+        AlphaAnimation fadeOut = new AlphaAnimation(1.0f, 0.0f);
+        fadeOut.setDuration(1200);
+        fadeOut.setFillAfter(true);
+        v.startAnimation(fadeOut);
+        v.setVisibility(View.GONE);
+    }
 }
 

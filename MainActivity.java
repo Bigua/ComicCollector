@@ -80,7 +80,7 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menu; this adds items to the action bar if it is comeIn.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         final MenuItem menuItem = menu.findItem(R.id.menu_add);
         menuItem.setVisible(false);

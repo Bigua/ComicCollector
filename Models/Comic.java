@@ -16,7 +16,7 @@ public class Comic {
     private String lang;
     private String number;
     private Boolean complete;
-    private Boolean have;
+    private Boolean whislist;
 
     public Comic() {
     }
@@ -25,22 +25,20 @@ public class Comic {
                  int year,
                  String cover,
                  String publisher,
-                 String barcode,
                  String number,
                  String type,
                  String lang,
                  Boolean complete,
-                 Boolean have) {
+                 Boolean whislist) {
         this.name = name;
         this.year = year;
         this.cover = cover;
         this.publisher = publisher;
-        this.barcode = barcode;
         this.number = number;
         this.lang = lang;
         this.type = type;
         this.complete = complete;
-        this.have = have;
+        this.whislist = whislist;
 
     }
 
@@ -119,5 +117,9 @@ public class Comic {
 
     public void setComplete(Boolean complete) {
         this.complete = complete;
+    }
+
+    public void setId(Long id) {
+        this._id = id;
     }
 }
