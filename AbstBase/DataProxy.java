@@ -35,14 +35,13 @@ public class DataProxy {
         Boolean complete = Boolean.valueOf(raw.get("complete"));
         Boolean have = Boolean.valueOf(raw.get("have"));
 
-
         Comic comic = new Comic(name, year, cover, publi, number, type, lang, complete, have);
         id = ch.insertComic(comic);
         comic.setId(id);
 
-        List<Long> Author;
+        List<Long> Authors;
         if (raw.containsKey("author")) {
-            Author = dealWithAuthors(raw.get("author"));
+            Authors = dealWithAuthors(raw.get("author"));
         }
         List<Long> Galaxies;
         if (raw.containsKey("galaxy")) {
@@ -57,7 +56,7 @@ public class DataProxy {
         String[] galaxies = galaxy.split(",");
         List<Long> ids = new ArrayList<Long>();
         for (String gala : galaxies) {
-            ids.add(saveGalaxy(gala));
+            ids.add(saveGalaxy(gala.trim()));
 
         }
         return ids;
@@ -68,7 +67,7 @@ public class DataProxy {
         String[] authors = author.split(",");
         List<Long> ids = new ArrayList<Long>();
         for (String auth : authors) {
-            ids.add(saveAuthor(auth));
+            ids.add(saveAuthor(auth.trim()));
         }
         return ids;
     }

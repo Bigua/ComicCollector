@@ -21,7 +21,7 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     private static final String ARG_SECTION_NUMBER = "section_number";
 
 
-    private Switch wishlist;
+    private Switch wish;
     private EditText title;
     private EditText num;
     private EditText type;
@@ -32,9 +32,8 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     private EditText publi;
     private EditText year;
     private EditText lang;
-
-    private Switch wish;
     private TextView fields;
+    
     private LinearLayout layout;
     private ScrollView scroll;
 //    private TextView success;
