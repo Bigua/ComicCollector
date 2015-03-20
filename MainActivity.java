@@ -110,7 +110,7 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
         switch (position) {
             case 0:
                 fragmentTransaction.replace(R.id.container,
-                        ChooseFragment.newInstance(position + 1))
+                        AddFragment.newInstance(position + 1))
                         .commit();
                 break;
             case 1:

@@ -79,7 +79,6 @@ public class DataProxy {
         return id;
     }
 
-
     private Long saveGalaxy(String galaxy) {
         GalaxyHandler gh = new GalaxyHandler(this.context);
         Galaxy gala = new Galaxy(galaxy);
