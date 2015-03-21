@@ -47,6 +47,10 @@ public class Comic {
         return _id;
     }
 
+    public void setId(Long id) {
+        this._id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -117,9 +121,5 @@ public class Comic {
 
     public void setComplete(Boolean complete) {
         this.complete = complete;
-    }
-
-    public void setId(Long id) {
-        this._id = id;
     }
 }

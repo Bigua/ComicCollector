@@ -25,7 +25,8 @@ public class authorHandler {
                 baseMaker.getWritableDatabase())
                 .put(author);
     }
-    public void listAuthors(){
+
+    public void listAuthors() {
         baseMaker = new BaseMaker(this.context);
         List<Author> authors = cupboard().withDatabase(
                 baseMaker.getWritableDatabase())

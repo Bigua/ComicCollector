@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.*;
 import android.view.animation.AlphaAnimation;
 import android.widget.*;
+import com.squareup.picasso.Picasso;
 import me.bigua.comiccollector.AbstBase.DataProxy;
 import org.apache.commons.lang3.StringUtils;
 
@@ -20,20 +21,21 @@ public class AddFragment extends Fragment implements View.OnClickListener {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
-
+    private View view;
     private Switch wish;
     private EditText title;
     private EditText num;
     private EditText type;
     private EditText author;
     private Switch complete;
-    private EditText Galaxy;
-    private EditText Universe;
+    private EditText galaxy;
+    private EditText universe;
     private EditText publi;
     private EditText year;
     private EditText lang;
     private TextView fields;
-    
+    private ImageView cover;
+
     private LinearLayout layout;
     private ScrollView scroll;
 //    private TextView success;
@@ -48,7 +50,7 @@ public class AddFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add, container, false);
+        view = inflater.inflate(R.layout.fragment_add, container, false);
 
         title = (EditText) view.findViewById(R.id.comic_title);
         num = (EditText) view.findViewById(R.id.num_comic);
@@ -61,23 +63,39 @@ public class AddFragment extends Fragment implements View.OnClickListener {
         fields = (TextView) view.findViewById(R.id.fields_add);
         scroll = (ScrollView) view.findViewById(R.id.scrollView);
         layout = (LinearLayout) view.findViewById(R.id.more_fields);
-//        success = (TextView) view.findViewById(R.id.success);
+        galaxy = (EditText) view.findViewById(R.id.galaxy);
+        universe = (EditText) view.findViewById(R.id.universe);
+        complete = (Switch) view.findViewById(R.id.complete);
+        cover = (ImageView) view.findViewById(R.id.cover);
 
         fields.setOnClickListener(this);
-
+        setCover();
         setHasOptionsMenu(true);
-
         ((MainActivity) getActivity()).setActionBarTitle(R.string.add_comic);
-
         return view;
+    }
+
+    public void setCover() {
+        view.post(new Runnable() {
+            @Override
+            public void run() {
+                cover.getLayoutParams().height = cover.getWidth();
+                Picasso.with(view.getContext()).load(R.drawable.no_cover)
+                        .resize(540, (int) (540 * 1.60))
+                        .into(cover);
+            }
+        });
     }
 
     public void getValues(View view) {
 
-
         Map<String, String> raw = new HashMap<>();
         if (wish.isChecked()) {
             raw.put("wishlist", "true");
+        }
+
+        if (complete.isChecked()) {
+            raw.put("complete", "true");
         }
 
         if (StringUtils.isBlank(title.getText())) {
@@ -111,6 +129,15 @@ public class AddFragment extends Fragment implements View.OnClickListener {
             raw.put("type", type.getText().toString().trim());
         }
 
+        if (StringUtils.isNotBlank(galaxy.getText())) {
+            raw.put("galaxy", galaxy.getText().toString().trim());
+        }
+
+        if (StringUtils.isNotBlank(universe.getText())) {
+            raw.put("universe", universe.getText().toString().trim());
+        }
+
+
         this.saveComic(view, raw);
 
     }
@@ -125,10 +152,8 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-
         menu.clear();
         inflater.inflate(R.menu.menu_main, menu);
-
         final MenuItem settings = menu.findItem(R.id.menu_settings);
         settings.setVisible(false);
     }
@@ -166,7 +191,6 @@ public class AddFragment extends Fragment implements View.OnClickListener {
 
     public void Scroll(final int roll) {
         scroll.post(new Runnable() {
-
             @Override
             public void run() {
                 scroll.fullScroll(roll);
@@ -185,9 +209,10 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     public void goodBye(View v) {
         AlphaAnimation fadeOut = new AlphaAnimation(1.0f, 0.0f);
         fadeOut.setDuration(1200);
-        fadeOut.setFillAfter(true);
-        v.startAnimation(fadeOut);
         v.setVisibility(View.GONE);
+        fadeOut.setFillAfter(Boolean.TRUE);
+        v.startAnimation(fadeOut);
+        v.setClickable(Boolean.FALSE);
     }
 }
 

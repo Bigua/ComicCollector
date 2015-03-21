@@ -7,5 +7,4 @@ package me.bigua.comiccollector;
 public class DealWithFiles {
 
 
-
 }

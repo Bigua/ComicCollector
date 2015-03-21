@@ -9,8 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
+//import com.google.zxing.integration.android.IntentIntegrator;
+//import com.google.zxing.integration.android.IntentResult;
 
 /**
  * Created by Bigua on 3/1/15.
@@ -47,14 +47,14 @@ public class ChooseFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (scanResult != null) {
-            String contents = scanResult.getContents();
-            if (contents != null)
-                Log.wtf("aqui", " barcode");
-            else
-                finish();
-        }
+//        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+//        if (scanResult != null) {
+//            String contents = scanResult.getContents();
+//            if (contents != null)
+//                Log.wtf("aqui", " barcode");
+//            else
+//                finish();
+//        }
     }
 
     private void finish() {
@@ -78,7 +78,7 @@ public class ChooseFragment extends Fragment implements View.OnClickListener {
                 transaction.commit();
                 break;
             case R.id.barcode:
-                IntentIntegrator.forSupportFragment(this).initiateScan();
+//                IntentIntegrator.forSupportFragment(this).initiateScan();
                 break;
 
         }

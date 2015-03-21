@@ -15,16 +15,16 @@ public class BaseMaker extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "comicBase.db";
     private static final int DATABASE_VERSION = 1;
 
-    public BaseMaker(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
-
     static {
         cupboard().register(Comic.class);
         cupboard().register(Author.class);
         cupboard().register(comicAuthor.class);
         cupboard().register(comicGalaxy.class);
         cupboard().register(Galaxy.class);
+    }
+
+    public BaseMaker(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     public void onCreate(SQLiteDatabase db) {
