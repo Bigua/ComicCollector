@@ -1,9 +1,7 @@
 package me.bigua.comiccollector.AbstBase;
 
 import android.content.Context;
-import me.bigua.comiccollector.Models.Author;
-import me.bigua.comiccollector.Models.Comic;
-import me.bigua.comiccollector.Models.Galaxy;
+import me.bigua.comiccollector.Models.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +18,12 @@ public class DataProxy {
         this.context = context;
     }
 
+    /**
+     * Salva um comic na base
+     *
+     * @param raw coleção dos dados recuperados do form
+     * @return id do comic salvo
+     */
     public Long persistComic(Map<String, String> raw) {
 
         Long id = null;
@@ -39,37 +43,30 @@ public class DataProxy {
         id = ch.insertComic(comic);
         comic.setId(id);
 
-        List<Long> Authors;
         if (raw.containsKey("author")) {
-            Authors = dealWithAuthors(raw.get("author"));
+            dealWithAuthors(id, raw.get("author"));
         }
-        List<Long> Galaxies;
         if (raw.containsKey("galaxy")) {
-            Galaxies = dealWithGalaxies(raw.get("galaxy"));
+            dealWithGalaxies(id, raw.get("galaxy"));
         }
-
         return id;
     }
 
-
-    private List<Long> dealWithGalaxies(String galaxy) {
-        String[] galaxies = galaxy.split(",");
-        List<Long> ids = new ArrayList<Long>();
-        for (String gala : galaxies) {
-            ids.add(saveGalaxy(gala.trim()));
-
-        }
-        return ids;
-    }
-
-
-    private List<Long> dealWithAuthors(String author) {
+    /**
+     * Lida com a situação de multiplos autores
+     *
+     * @param id
+     * @param author
+     */
+    private void dealWithAuthors(Long id, String author) {
         String[] authors = author.split(",");
-        List<Long> ids = new ArrayList<Long>();
+        List<Long> IDs = new ArrayList<Long>();
         for (String auth : authors) {
-            ids.add(saveAuthor(auth.trim()));
+            IDs.add(saveAuthor(auth.trim()));
         }
-        return ids;
+        for (Long AID : IDs) {
+            saveComicAuthor(id, AID);
+        }
     }
 
     private Long saveAuthor(String author) {
@@ -79,10 +76,33 @@ public class DataProxy {
         return id;
     }
 
+    private void saveComicAuthor(Long CID, Long AID) {
+        comicAuthorHandler cah = new comicAuthorHandler(this.context);
+        comicAuthor ca = new comicAuthor(CID, AID);
+        cah.insertComicAuthor(ca);
+    }
+
+    private void dealWithGalaxies(Long id, String galaxy) {
+        String[] galaxies = galaxy.split(",");
+        List<Long> IDs = new ArrayList<Long>();
+        for (String gala : galaxies) {
+            IDs.add(saveGalaxy(gala.trim()));
+        }
+        for (Long GID : IDs) {
+            saveComicGalaxy(id, GID);
+        }
+    }
+
     private Long saveGalaxy(String galaxy) {
         GalaxyHandler gh = new GalaxyHandler(this.context);
         Galaxy gala = new Galaxy(galaxy);
         long id = gh.insertGalaxy(gala);
         return id;
+    }
+
+    private void saveComicGalaxy(Long CID, Long GID) {
+        comicGalaxyHandler cgh = new comicGalaxyHandler(this.context);
+        comicGalaxy cg = new comicGalaxy(CID, GID);
+        cgh.insertComicGalaxy(cg);
     }
 }

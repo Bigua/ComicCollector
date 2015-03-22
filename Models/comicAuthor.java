@@ -9,6 +9,11 @@ public class comicAuthor {
     private Long author;
     private Long comic;
 
+    public comicAuthor(Long author, Long comic) {
+        this.author = author;
+        this.comic = comic;
+    }
+
     public Long getId() {
         return _id;
     }
