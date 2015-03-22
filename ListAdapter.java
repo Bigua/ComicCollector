@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import me.bigua.comiccollector.Models.Comic;
+import me.bigua.comiccollector.AbstBase.Models.Comic;
 
 import java.util.List;
 

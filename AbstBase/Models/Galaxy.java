@@ -1,4 +1,4 @@
-package me.bigua.comiccollector.Models;
+package me.bigua.comiccollector.AbstBase.Models;
 
 /**
  * Created by Bigua on 2/5/15.

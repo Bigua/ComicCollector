@@ -3,7 +3,7 @@ package me.bigua.comiccollector.AbstBase;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import me.bigua.comiccollector.Models.*;
+import me.bigua.comiccollector.AbstBase.Models.*;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 

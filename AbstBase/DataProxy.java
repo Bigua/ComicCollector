@@ -1,7 +1,8 @@
 package me.bigua.comiccollector.AbstBase;
 
 import android.content.Context;
-import me.bigua.comiccollector.Models.*;
+import me.bigua.comiccollector.AbstBase.Handlers.*;
+import me.bigua.comiccollector.AbstBase.Models.*;
 
 import java.util.ArrayList;
 import java.util.List;

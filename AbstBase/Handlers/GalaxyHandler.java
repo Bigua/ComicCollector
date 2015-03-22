@@ -1,7 +1,8 @@
-package me.bigua.comiccollector.AbstBase;
+package me.bigua.comiccollector.AbstBase.Handlers;
 
 import android.content.Context;
-import me.bigua.comiccollector.Models.Galaxy;
+import me.bigua.comiccollector.AbstBase.BaseMaker;
+import me.bigua.comiccollector.AbstBase.Models.Galaxy;
 
 import java.util.List;
 
@@ -21,18 +22,13 @@ public class GalaxyHandler {
 
     public Long insertGalaxy(Galaxy galaxy) {
         baseMaker = new BaseMaker(this.context);
-        return cupboard().withDatabase(
-                baseMaker.getWritableDatabase())
-                .put(galaxy);
+        return cupboard().withDatabase(baseMaker.getWritableDatabase()).put(galaxy);
     }
 
-    public List<Galaxy> listGalaxy() {
+    public List<Galaxy> List() {
         baseMaker = new BaseMaker(this.context);
-        List<Galaxy> galaxy = cupboard().withDatabase(
-                baseMaker.getWritableDatabase())
-                .query(Galaxy.class).list();
-        int i = galaxy.size();
-        return galaxy;
+        return cupboard().withDatabase(baseMaker.getWritableDatabase()).query(Galaxy.class).list();
+
     }
 
 
