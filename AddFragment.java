@@ -2,6 +2,7 @@ package me.bigua.comiccollector;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.*;
 import android.view.animation.AlphaAnimation;
 import android.widget.*;
@@ -36,6 +37,8 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     private TextView fields;
     private ImageView cover;
 
+    private Button from_internet;
+
     private LinearLayout layout;
     private ScrollView scroll;
 //    private TextView success;
@@ -67,7 +70,9 @@ public class AddFragment extends Fragment implements View.OnClickListener {
         universe = (EditText) view.findViewById(R.id.universe);
         complete = (Switch) view.findViewById(R.id.complete);
         cover = (ImageView) view.findViewById(R.id.cover);
+        from_internet = (Button) view.findViewById(R.id.from_internet);
 
+        from_internet.setOnClickListener(this);
         fields.setOnClickListener(this);
         setCover();
         setHasOptionsMenu(true);
@@ -137,6 +142,7 @@ public class AddFragment extends Fragment implements View.OnClickListener {
             raw.put("universe", universe.getText().toString().trim());
         }
 
+        raw.put("cover", String.valueOf(R.drawable.no_cover));
 
         this.saveComic(view, raw);
 
@@ -185,7 +191,22 @@ public class AddFragment extends Fragment implements View.OnClickListener {
                 comeIn(layout);
                 Scroll(ScrollView.FOCUS_DOWN);
                 break;
+            case R.id.from_internet:
+                Fragment newFragment;
 
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                newFragment = new ImageFragment();
+
+
+                Bundle bundle = new Bundle();
+                bundle.putString("lalala","lelele");
+                newFragment.setArguments(bundle);
+                // Replace whatever is in the fragment_container view with this fragment,
+                transaction.replace(R.id.container, newFragment);
+                // and add the transaction to the back stack
+                transaction.addToBackStack("add");
+                // Commit the transaction
+                transaction.commit();
         }
     }
 

@@ -31,7 +31,12 @@ public class DataProxy {
         comicHandler ch = new comicHandler(this.context);
 
         String name = raw.get("name");
-        Integer year = Integer.parseInt(raw.get("year"));
+        Integer year = null;
+        if (raw.get("year") != null) {
+            year = Integer.parseInt(raw.get("year"));
+        } else
+            year = 0;
+
         String cover = raw.get("cover");
         String publi = raw.get("publi");
         String number = raw.get("number");
