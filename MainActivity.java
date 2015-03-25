@@ -2,6 +2,7 @@ package me.bigua.comiccollector;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends NavigationLiveo implements NavigationLiveoListener {
+
+
+    public Bundle backBundle = new Bundle();
 
     @Override
     public void onUserInformation() {
@@ -102,7 +106,6 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onItemClickNavigation(int position, int container) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager()
@@ -138,7 +141,6 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
         getSupportActionBar().setTitle(title);
     }
 
-
     @Override
     public void onClickUserPhotoNavigation(View view) {
 
@@ -152,6 +154,19 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
     @Override
     public void onPrepareOptionsMenuNavigation(Menu menu, int i, boolean b) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        if (backBundle.containsKey("url")) {
+            Log.wtf("i've got the ", "key");
+        }
+    }
+
+    public void putInBundle(String la, String le) {
+        backBundle.putString(la, le);
     }
 }
 
