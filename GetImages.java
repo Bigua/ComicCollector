@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,6 +14,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 
 /**
  * Created by Bigua on 3/23/15.
@@ -21,15 +23,17 @@ import java.net.URLConnection;
 public class GetImages extends AsyncTask<String, Void, Object> {
 
     JSONObject json;
+    ArrayList<String> listImages = new ArrayList<>();
     private Context context = null;
     private ProgressDialog progress;
-    private IEventListener<Object> onComplete;
+    private AsyncDelegate<Object> onComplete;
+
 
     public GetImages(Context context) {
         this.context = context;
     }
 
-    public void setOnCompleteListener(IEventListener<Object> listener) {
+    public void setOnCompleteListener(AsyncDelegate<Object> listener) {
         onComplete = listener;
     }
 
@@ -49,7 +53,6 @@ public class GetImages extends AsyncTask<String, Void, Object> {
 
     @Override
     protected Object doInBackground(String... params) {
-        Log.wtf("param", params[0]);
         URL url;
         try {
             url = new URL("https://ajax.googleapis.com/ajax/services/search/images?" +
@@ -65,19 +68,17 @@ public class GetImages extends AsyncTask<String, Void, Object> {
                 builder.append(line);
             }
 
-//            Log.wtf("Builder string => ", builder.toString());
-
             json = new JSONObject(builder.toString());
         } catch (MalformedURLException e) {
-            Log.wtf("MalformedURLException","vish");
+            Log.wtf("MalformedURLException", "vish");
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IOException e) {
-            Log.wtf("IOException","vish");
+            Log.wtf("IOException", "vish");
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (JSONException e) {
-            Log.wtf("JSONException","vish");
+            Log.wtf("JSONException", "vish");
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -87,12 +88,42 @@ public class GetImages extends AsyncTask<String, Void, Object> {
     @Override
     protected void onPostExecute(Object result) {
 
+
+
+        try {
+            JSONObject responseObject = json.getJSONObject("responseData");
+            JSONArray resultArray = responseObject.getJSONArray("results");
+
+            listImages = getImageList(resultArray);
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
         if (onComplete != null) {
-            onComplete.onEventFired(json);
+            onComplete.asyncComplete(listImages);
         }
 
         if (context != null && progress != null) {
             progress.dismiss();
         }
+
     }
+
+    public ArrayList<String> getImageList(JSONArray resultArray) {
+        ArrayList<String> listImages = new ArrayList<String>();
+        try {
+            for (int i = 0; i < resultArray.length(); i++) {
+                JSONObject obj;
+                obj = resultArray.getJSONObject(i);
+                listImages.add(obj.getString("url"));
+            }
+            return listImages;
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
