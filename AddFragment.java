@@ -36,6 +36,7 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     private EditText lang;
     private TextView fields;
     private ImageView cover;
+    private String url;
 
     private Button from_internet;
 
@@ -74,27 +75,31 @@ public class AddFragment extends Fragment implements View.OnClickListener {
 
         from_internet.setOnClickListener(this);
         fields.setOnClickListener(this);
-        setCover();
+        setCover(null);
         setHasOptionsMenu(true);
         ((MainActivity) getActivity()).setActionBarTitle(R.string.add_comic);
         return view;
     }
 
-    public void setCover() {
-        view.post(new Runnable() {
-            @Override
-            public void run() {
-                cover.getLayoutParams().height = cover.getWidth();
-                Picasso.with(view.getContext()).load(R.drawable.no_cover)
-                        .resize(540, (int) (540 * 1.60))
-                        .into(cover);
-            }
-        });
+    public void setCover(final String url) {
+
+        if (url != null) {
+            view.post(new Runnable() {
+                @Override
+                public void run() {
+                    cover.getLayoutParams().height = cover.getWidth();
+                    Picasso.with(view.getContext()).load(url)
+                            .resize(540, (int) (540 * 1.60))
+                            .into(cover);
+                }
+            });
+        }
+
     }
 
     public void getValues(View view) {
 
-        Map<String, String> raw = new HashMap<>();
+        Map<String, String> raw = new HashMap<String, String>();
         if (wish.isChecked()) {
             raw.put("wishlist", "true");
         }
@@ -199,14 +204,24 @@ public class AddFragment extends Fragment implements View.OnClickListener {
 
 
                 Bundle bundle = new Bundle();
-                bundle.putString("lalala","lelele");
+                bundle.putString("lalala", "lelele");
                 newFragment.setArguments(bundle);
                 // Replace whatever is in the fragment_container view with this fragment,
-                transaction.replace(R.id.container, newFragment);
+                transaction.replace(R.id.container, newFragment, "from_internet");
                 // and add the transaction to the back stack
-                transaction.addToBackStack("add");
+                transaction.addToBackStack("from_internet");
                 // Commit the transaction
                 transaction.commit();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Bundle bundle = this.getArguments();
+        String url = String.valueOf(((MainActivity) getActivity()).backBundle.get("url"));
+        if (url != null) {
+            this.setCover(url);
         }
     }
 

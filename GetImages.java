@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class GetImages extends AsyncTask<String, Void, Object> {
 
     JSONObject json;
-    ArrayList<String> listImages = new ArrayList<>();
+    ArrayList<String> listImages = new ArrayList<String>();
     private Context context = null;
     private ProgressDialog progress;
     private AsyncDelegate<Object> onComplete;

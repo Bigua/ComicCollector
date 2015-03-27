@@ -30,24 +30,32 @@ public class ListAdapter extends ArrayAdapter<Comic> {
     @Override
     public View getView(int position, View rowView, ViewGroup parent) {
         LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        rowView = vi.inflate(R.layout.item_list, null);
-        TextView name = (TextView) rowView.findViewById(R.id.nameLine);
-        TextView number = (TextView) rowView.findViewById(R.id.numberLine);
-        ImageView img = (ImageView) rowView.findViewById(R.id.icon);
+        if (rowView == null) {
+            rowView = vi.inflate(R.layout.item_list, parent, false);
+            ViewHolder vh = new ViewHolder();
+            vh.name = (TextView) rowView.findViewById(R.id.nameLine);
+            vh.number = (TextView) rowView.findViewById(R.id.numberLine);
+            vh.img = (ImageView) rowView.findViewById(R.id.icon);
 
-        Comic comic = objects.get(position);
-        if (comic.getCover() != null) {
+            Comic comic = objects.get(position);
+            if (comic.getCover() != null) {
 
-            Picasso.with(this.context).load(Integer.parseInt(comic.getCover())).resize(120, 200).into(img);
+                Picasso.with(this.context).load(Integer.parseInt(comic.getCover())).resize(120, 200).into(vh.img);
 
+            }
+            vh.name.setText(comic.getName());
+            if (comic.getCover() != null) {
+                vh.number.setText("#" + comic.getNumber());
+            }
         }
-        name.setText(comic.getName());
-        if (comic.getCover() != null) {
-            number.setText("#" + comic.getNumber());
-        }
-
-
         return rowView;
+    }
+
+    /*private view holder class*/
+    private class ViewHolder {
+        TextView name;
+        TextView number;
+        ImageView img;
     }
 
 }

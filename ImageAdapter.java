@@ -2,7 +2,6 @@ package me.bigua.comiccollector;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,8 +53,11 @@ public class ImageAdapter extends ArrayAdapter<String> implements View.OnClickLi
         }
         v.setSelected(true);
         v.setBackgroundColor(Color.RED);
-        Log.wtf("url", String.valueOf(v.getTag()));
+//        Log.wtf("url", String.valueOf(v.getTag()));
+        this.context.getApplicationContext();
+        ((MainActivity) this.context).putInBundle("url", String.valueOf(v.getTag()));
     }
+
 
     /*private view holder class*/
     private class ViewHolder {

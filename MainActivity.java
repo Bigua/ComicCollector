@@ -1,8 +1,8 @@
 package me.bigua.comiccollector;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,7 +46,7 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
         this.setDefaultStartPositionNavigation(1);
         // name of the list items
 
-        List<String> mListNameItem = new ArrayList<>();
+        List<String> mListNameItem = new ArrayList<String>();
         mListNameItem.add(0, getString(R.string.add_comic));
         mListNameItem.add(1, getString(R.string.list_comics));
         mListNameItem.add(2, "Wishlist");
@@ -56,7 +56,7 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
         mListNameItem.add(6, "lalala");
 
         // icons list items
-        List<Integer> mListIconItem = new ArrayList<>();
+        List<Integer> mListIconItem = new ArrayList<Integer>();
         mListIconItem.add(0, 0);
         mListIconItem.add(1, 0); //Item no icon set 0
         mListIconItem.add(2, 0); //Item no icon set 0
@@ -66,7 +66,7 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
         mListIconItem.add(6, 0);
 
         //{optional} - Among the names there is some subheader, you must indicate it here
-        List<Integer> mListHeaderItem = new ArrayList<>();
+        List<Integer> mListHeaderItem = new ArrayList<Integer>();
         mListHeaderItem.add(4);
 
         //{optional} - Among the names there is any item counter, you must indicate it (position) and the value here
@@ -160,13 +160,18 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
     public void onBackPressed() {
         super.onBackPressed();
 
-        if (backBundle.containsKey("url")) {
-            Log.wtf("i've got the ", "key");
-        }
+        Fragment myFragment = getFragmentManager().findFragmentByTag("from_internet");
+//
+//        if (backBundle.containsKey("url")) {
+//            Log.wtf("i've got the ", "key");
+//            Log.wtf("url", (String) backBundle.get("url"));
+//        }
     }
 
     public void putInBundle(String la, String le) {
         backBundle.putString(la, le);
+
+
     }
 }
 

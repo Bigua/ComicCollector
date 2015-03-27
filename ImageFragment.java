@@ -2,7 +2,6 @@ package me.bigua.comiccollector;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ public class ImageFragment extends Fragment implements AsyncDelegate {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
     ImageAdapter imageAdapter;
-    private ArrayList<String> listImages = new ArrayList<>();
+    private ArrayList<String> listImages = new ArrayList<String>();
 
     public static ImageFragment newInstance(int sectionNumber) {
         ImageFragment fragment = new ImageFragment();
@@ -31,12 +30,10 @@ public class ImageFragment extends Fragment implements AsyncDelegate {
         GetImages.setOnCompleteListener(this);
         GetImages.execute("eu");
         Bundle bundle = this.getArguments();
-        String lol = bundle.getString("lalala");
-        Log.w("funcionou", lol);
 
-        imageAdapter = new ImageAdapter(getActivity().getBaseContext(), R.layout.image_list, listImages);
+        imageAdapter = new ImageAdapter(getActivity(), R.layout.image_list, listImages);
         grid_images.setAdapter(imageAdapter);
-        ((MainActivity) getActivity()).putInBundle("url", "lalala");
+//        ((MainActivity) getActivity()).putInBundle("url", "lalala");
         return view;
 
 //        grid_images.getSelectedItem();
