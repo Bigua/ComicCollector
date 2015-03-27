@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import me.bigua.comiccollector.AbstBase.Handlers.comicHandler;
+import me.bigua.comiccollector.AbstBase.Handlers.ComicHandlers;
 
 /**
  * Created by Bigua on 2/17/15.
@@ -19,7 +19,7 @@ public class ListFragment extends Fragment {
 
     private ListView listView;
     private ListAdapter listAdapter;
-    private comicHandler comicHandler;
+    private ComicHandlers comicHandlers;
 
     public static ListFragment newInstance(int sectionNumber) {
         ListFragment fragment = new ListFragment();
@@ -39,8 +39,8 @@ public class ListFragment extends Fragment {
                 container, false);
 
         listView = (ListView) view.findViewById(R.id.listView);
-        comicHandler = new comicHandler(this.getActivity());
-        listAdapter = new ListAdapter(getActivity().getBaseContext(), R.layout.item_list, comicHandler.List());
+        comicHandlers = new ComicHandlers(this.getActivity());
+        listAdapter = new ListAdapter(getActivity().getBaseContext(), R.layout.item_list, comicHandlers.List());
         listView.setAdapter(listAdapter);
         ((MainActivity) getActivity()).setActionBarTitle(R.string.list_comics);
 

@@ -28,7 +28,7 @@ public class DataProxy {
     public Long persistComic(Map<String, String> raw) {
 
         Long id = null;
-        comicHandler ch = new comicHandler(this.context);
+        ComicHandlers ch = new ComicHandlers(this.context);
 
         String name = raw.get("name");
         Integer year = null;
@@ -76,14 +76,14 @@ public class DataProxy {
     }
 
     private Long saveAuthor(String author) {
-        authorHandler ah = new authorHandler(this.context);
+        AuthorHandlers ah = new AuthorHandlers(this.context);
         Author auth = new Author(author);
         Long id = ah.insertAuthor(auth);
         return id;
     }
 
     private void saveComicAuthor(Long CID, Long AID) {
-        comicAuthorHandler cah = new comicAuthorHandler(this.context);
+        ComicAuthorHandlers cah = new ComicAuthorHandlers(this.context);
         comicAuthor ca = new comicAuthor(CID, AID);
         cah.insertComicAuthor(ca);
     }
@@ -107,7 +107,7 @@ public class DataProxy {
     }
 
     private void saveComicGalaxy(Long CID, Long GID) {
-        comicGalaxyHandler cgh = new comicGalaxyHandler(this.context);
+        ComicGalaxyHandlers cgh = new ComicGalaxyHandlers(this.context);
         comicGalaxy cg = new comicGalaxy(CID, GID);
         cgh.insertComicGalaxy(cg);
     }

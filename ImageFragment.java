@@ -33,10 +33,7 @@ public class ImageFragment extends Fragment implements AsyncDelegate {
 
         imageAdapter = new ImageAdapter(getActivity(), R.layout.image_list, listImages);
         grid_images.setAdapter(imageAdapter);
-//        ((MainActivity) getActivity()).putInBundle("url", "lalala");
         return view;
-
-//        grid_images.getSelectedItem();
     }
 
     @Override

@@ -12,11 +12,11 @@ import static nl.qbusict.cupboard.CupboardFactory.cupboard;
  * Created by Bigua on 2/15/15.
  * bigua.kun@gmail.com
  */
-public class comicHandler {
+public class ComicHandlers {
     private Context context;
     private BaseMaker baseMaker;
 
-    public comicHandler(Context context) {
+    public ComicHandlers(Context context) {
         this.context = context;
     }
 
