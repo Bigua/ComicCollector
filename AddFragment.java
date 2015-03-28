@@ -147,7 +147,10 @@ public class AddFragment extends Fragment implements View.OnClickListener {
             raw.put("universe", universe.getText().toString().trim());
         }
 
-        raw.put("cover", String.valueOf(R.drawable.no_cover));
+        if (this.url != null) {
+            raw.put("cover", this.url);
+        }
+
 
         this.saveComic(view, raw);
 
@@ -197,29 +200,39 @@ public class AddFragment extends Fragment implements View.OnClickListener {
                 Scroll(ScrollView.FOCUS_DOWN);
                 break;
             case R.id.from_internet:
-                Fragment newFragment;
-
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                newFragment = new ImageFragment();
-
-
-                Bundle bundle = new Bundle();
-                bundle.putString("lalala", "lelele");
-                newFragment.setArguments(bundle);
-                // Replace whatever is in the fragment_container view with this fragment,
-                transaction.replace(R.id.container, newFragment, "from_internet");
-                // and add the transaction to the back stack
-                transaction.addToBackStack("from_internet");
-                // Commit the transaction
-                transaction.commit();
+                if (StringUtils.isNotBlank(title.getText()) && StringUtils.isNotBlank(type.getText())) {
+                    Fragment newFragment;
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    newFragment = new ImageFragment();
+                    Bundle bundle = new Bundle();
+                    String param1 = title.getText() + "+" + num.getText() + "+" + type.getText() + "+cover";
+                    param1 = param1.trim();
+                    param1 = param1.replace(" ", "+");
+                    bundle.putString("param1", param1);
+                    String param2 = title.getText() + "+" + num.getText();
+                    param2 = param2.trim();
+                    param2 = param2.replace(" ", "+");
+                    bundle.putString("param2", param2);
+                    newFragment.setArguments(bundle);
+                    // Replace whatever is in the fragment_container view with this fragment,
+                    transaction.replace(R.id.container, newFragment, "from_internet");
+                    // and add the transaction to the back stack
+                    transaction.addToBackStack("from_internet");
+                    // Commit the transaction
+                    transaction.commit();
+                } else {
+                    title.setError(getText(R.string.not_empty) + " para buscar capa");
+                    type.setError(getText(R.string.not_empty) + " para buscar capa");
+                }
+                break;
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Bundle bundle = this.getArguments();
         String url = String.valueOf(((MainActivity) getActivity()).backBundle.get("url"));
+        this.url = url;
         if (url != null) {
             this.setCover(url);
         }

@@ -35,7 +35,7 @@ public class ImageAdapter extends ArrayAdapter<String> implements View.OnClickLi
             GridItem = vi.inflate(R.layout.image_list, parent, false);
             ViewHolder vh = new ViewHolder();
             vh.image = (ImageView) GridItem.findViewById(R.id.image_ingrid);
-            Picasso.with(this.context).load(objects.get(position)).resize(100, 150).into(vh.image);
+            Picasso.with(this.context).load(objects.get(position)).fit().into(vh.image);
             GridItem.setTag(objects.get(position));
             GridItem.setOnClickListener(this);
         }

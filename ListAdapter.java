@@ -33,14 +33,14 @@ public class ListAdapter extends ArrayAdapter<Comic> {
         if (rowView == null) {
             rowView = vi.inflate(R.layout.item_list, parent, false);
             ViewHolder vh = new ViewHolder();
-            vh.name = (TextView) rowView.findViewById(R.id.nameLine);
-            vh.number = (TextView) rowView.findViewById(R.id.numberLine);
+            vh.name = (TextView) rowView.findViewById(R.id.nameView);
+            vh.number = (TextView) rowView.findViewById(R.id.numberView);
             vh.img = (ImageView) rowView.findViewById(R.id.icon);
 
             Comic comic = objects.get(position);
             if (comic.getCover() != null) {
 
-                Picasso.with(this.context).load(Integer.parseInt(comic.getCover())).resize(120, 200).into(vh.img);
+                Picasso.with(this.context).load((comic.getCover())).resize(120, 200).centerInside().into(vh.img);
 
             }
             vh.name.setText(comic.getName());

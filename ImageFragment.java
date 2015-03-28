@@ -26,10 +26,17 @@ public class ImageFragment extends Fragment implements AsyncDelegate {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_image, container, false);
         GridView grid_images = (GridView) view.findViewById(R.id.grid_image);
+
         GetImages GetImages = new GetImages(view.getContext());
         GetImages.setOnCompleteListener(this);
-        GetImages.execute("eu");
+
+        GetImages GetImages2 = new GetImages(view.getContext());
+        GetImages2.setOnCompleteListener(this);
+
         Bundle bundle = this.getArguments();
+
+        GetImages.execute(String.valueOf(bundle.get("param1")));
+        GetImages2.execute(String.valueOf(bundle.get("param2")));
 
         imageAdapter = new ImageAdapter(getActivity(), R.layout.image_list, listImages);
         grid_images.setAdapter(imageAdapter);
@@ -38,9 +45,8 @@ public class ImageFragment extends Fragment implements AsyncDelegate {
 
     @Override
     public void asyncComplete(Object result) {
-        listImages = (ArrayList<String>) result;
-        for (String url : listImages){
+        for (String url : (ArrayList<String>) result)
             this.imageAdapter.add(url);
-        }
     }
 }
+

@@ -87,9 +87,6 @@ public class GetImages extends AsyncTask<String, Void, Object> {
 
     @Override
     protected void onPostExecute(Object result) {
-
-
-
         try {
             JSONObject responseObject = json.getJSONObject("responseData");
             JSONArray resultArray = responseObject.getJSONArray("results");
@@ -125,5 +122,4 @@ public class GetImages extends AsyncTask<String, Void, Object> {
         }
         return null;
     }
-
 }
