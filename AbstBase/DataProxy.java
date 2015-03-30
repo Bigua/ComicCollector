@@ -1,9 +1,16 @@
 package me.bigua.comiccollector.AbstBase;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.os.Environment;
+import android.util.Log;
 import me.bigua.comiccollector.AbstBase.Handlers.*;
 import me.bigua.comiccollector.AbstBase.Models.*;
+import me.bigua.comiccollector.AsyncDelegate;
+import me.bigua.comiccollector.DownloadImage;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,8 +19,12 @@ import java.util.Map;
  * Created by Bigua on 3/12/15.
  * bigua.kun@gmail.com
  */
-public class DataProxy {
+public class DataProxy implements AsyncDelegate {
+
+    Long id = null;
+    ComicHandlers ch;
     private Context context;
+
 
     public DataProxy(Context context) {
         this.context = context;
@@ -27,8 +38,8 @@ public class DataProxy {
      */
     public Long persistComic(Map<String, String> raw) {
 
-        Long id = null;
-        ComicHandlers ch = new ComicHandlers(this.context);
+
+        ch = new ComicHandlers(this.context);
 
         String name = raw.get("name");
         Integer year = null;
@@ -44,6 +55,16 @@ public class DataProxy {
         String lang = raw.get("lang");
         Boolean complete = Boolean.valueOf(raw.get("complete"));
         Boolean have = Boolean.valueOf(raw.get("have"));
+
+        DownloadImage di = new DownloadImage(this.context);
+        di.setOnCompleteListener(this);
+
+        if (cover != null) {
+            di.execute(cover);
+        } else {
+            Log.wtf(" capa", " nula");
+        }
+
 
         Comic comic = new Comic(name, year, cover, publi, number, type, lang, complete, have);
         id = ch.insertComic(comic);
@@ -110,5 +131,44 @@ public class DataProxy {
         ComicGalaxyHandlers cgh = new ComicGalaxyHandlers(this.context);
         comicGalaxy cg = new comicGalaxy(CID, GID);
         cgh.insertComicGalaxy(cg);
+    }
+
+    @Override
+    public void asyncComplete(Object success) {
+        String name = "cover" + System.currentTimeMillis();
+        String cover = this.savebitmap(name, (Bitmap) success);
+        Log.wtf("cover", cover);
+        int status = ch.updateComic("cover", cover, id);
+        Log.wtf("status", String.valueOf(status));
+    }
+
+    private String savebitmap(String filename, Bitmap bmp) {
+        String folderPath = Environment.getExternalStorageDirectory() + "/ComicCollector";
+        File folder = new File(folderPath);
+        String filepath = "";
+        boolean success = true;
+        if (!folder.exists()) {
+            success = folder.mkdir();
+        }
+        if (success) {
+            FileOutputStream outStream = null;
+            File file = new File(folderPath, filename + ".png");
+            if (file.exists()) {
+                file.delete();
+                file = new File(folderPath, filename + ".png");
+                Log.e("file exist", "" + file + ",Bitmap= " + filename);
+            }
+            try {
+                outStream = new FileOutputStream(file);
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+                outStream.flush();
+                outStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Log.e("file", "" + file);
+            return file.toString();
+        }
+        return filepath;
     }
 }

@@ -1,6 +1,7 @@
 package me.bigua.comiccollector;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import me.bigua.comiccollector.AbstBase.Models.Comic;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -30,24 +32,37 @@ public class ListAdapter extends ArrayAdapter<Comic> {
     @Override
     public View getView(int position, View rowView, ViewGroup parent) {
         LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        Comic comic = objects.get(position);
+        ViewHolder vh;
         if (rowView == null) {
             rowView = vi.inflate(R.layout.item_list, parent, false);
-            ViewHolder vh = new ViewHolder();
+            vh = new ViewHolder();
+
             vh.name = (TextView) rowView.findViewById(R.id.nameView);
             vh.number = (TextView) rowView.findViewById(R.id.numberView);
             vh.img = (ImageView) rowView.findViewById(R.id.icon);
+            rowView.setTag(vh);
+        } else {
+            vh = (ViewHolder) rowView.getTag();
+        }
 
-            Comic comic = objects.get(position);
-            if (comic.getCover() != null) {
+        if (comic.getCover() != null) {
+//            Log.wtf("coverfrom", comic.getCover());
 
-                Picasso.with(this.context).load((comic.getCover())).resize(120, 200).centerInside().into(vh.img);
+            File f = new File(comic.getCover());
 
-            }
-            vh.name.setText(comic.getName());
-            if (comic.getCover() != null) {
-                vh.number.setText("#" + comic.getNumber());
+            if (f.exists()) {
+                Log.wtf("criou o file", comic.getCover());
+                Picasso.with(this.context).load(f).fit().centerCrop().into(vh.img);
+            } else {
+                Picasso.with(this.context).load((comic.getCover())).fit().centerCrop().into(vh.img);
             }
         }
+        vh.name.setText(comic.getName());
+        if (comic.getNumber() != null) {
+            vh.number.setText("#" + comic.getNumber());
+        }
+
         return rowView;
     }
 

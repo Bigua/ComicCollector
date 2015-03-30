@@ -1,5 +1,6 @@
 package me.bigua.comiccollector.AbstBase.Handlers;
 
+import android.content.ContentValues;
 import android.content.Context;
 import me.bigua.comiccollector.AbstBase.BaseMaker;
 import me.bigua.comiccollector.AbstBase.Models.Comic;
@@ -21,6 +22,15 @@ public class ComicHandlers {
     }
 
 
+    public int updateComic(String field, String value, Long id) {
+        baseMaker = new BaseMaker(this.context);
+        ContentValues values = new ContentValues(1);
+        values.put(field, value);
+// update all books where the title is 'android'
+        int status = cupboard().withDatabase(baseMaker.getWritableDatabase()).update(Comic.class, values, "_id = ?", id.toString());
+        return status;
+    }
+
     public Long insertComic(Comic comic) {
         baseMaker = new BaseMaker(this.context);
         return cupboard().withDatabase(baseMaker.getWritableDatabase()).put(comic);
@@ -30,4 +40,5 @@ public class ComicHandlers {
         baseMaker = new BaseMaker(this.context);
         return cupboard().withDatabase(baseMaker.getWritableDatabase()).query(Comic.class).list();
     }
+
 }

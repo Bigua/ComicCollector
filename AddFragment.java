@@ -1,10 +1,12 @@
 package me.bigua.comiccollector;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.*;
 import android.view.animation.AlphaAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.squareup.picasso.Picasso;
 import me.bigua.comiccollector.AbstBase.DataProxy;
@@ -193,6 +195,7 @@ public class AddFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        this.hideKeyboard();
         switch (v.getId()) {
             case R.id.fields_add:
                 goodBye(fields);
@@ -263,5 +266,15 @@ public class AddFragment extends Fragment implements View.OnClickListener {
         v.startAnimation(fadeOut);
         v.setClickable(Boolean.FALSE);
     }
+
+    public void hideKeyboard() {
+        View v = getActivity().getWindow().getCurrentFocus();
+        if (v != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
+    }
+
+
 }
 

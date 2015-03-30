@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -31,14 +32,19 @@ public class ImageAdapter extends ArrayAdapter<String> implements View.OnClickLi
     // create a new ImageView for each item referenced by the Adapter
     public View getView(int position, View GridItem, ViewGroup parent) {
         LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        ViewHolder vh;
         if (GridItem == null) {
             GridItem = vi.inflate(R.layout.image_list, parent, false);
-            ViewHolder vh = new ViewHolder();
+            vh = new ViewHolder();
             vh.image = (ImageView) GridItem.findViewById(R.id.image_ingrid);
-            Picasso.with(this.context).load(objects.get(position)).fit().into(vh.image);
-            GridItem.setTag(objects.get(position));
-            GridItem.setOnClickListener(this);
+            vh.hiddenUrl = (TextView) GridItem.findViewById(R.id.hidden_url);
+            GridItem.setTag(vh);
+        } else {
+            vh = (ViewHolder) GridItem.getTag();
         }
+        Picasso.with(this.context).load(objects.get(position)).fit().into(vh.image);
+        vh.hiddenUrl.setText(objects.get(position));
+        GridItem.setOnClickListener(this);
         return GridItem;
     }
 
@@ -53,14 +59,14 @@ public class ImageAdapter extends ArrayAdapter<String> implements View.OnClickLi
         }
         v.setSelected(true);
         v.setBackgroundColor(Color.RED);
-//        Log.wtf("url", String.valueOf(v.getTag()));
+        TextView hiddenUrl = (TextView) v.findViewById(R.id.hidden_url);
         this.context.getApplicationContext();
-        ((MainActivity) this.context).putInBundle("url", String.valueOf(v.getTag()));
+        ((MainActivity) this.context).putInBundle("url", (String) hiddenUrl.getText());
     }
 
-
     /*private view holder class*/
-    private class ViewHolder {
+    class ViewHolder {
         ImageView image;
+        TextView hiddenUrl;
     }
 }
