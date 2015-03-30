@@ -22,16 +22,15 @@ public class ComicHandlers {
     }
 
 
-    public int updateComic(String field, String value, Long id) {
+    public int Update(String field, String value, Long id) {
         baseMaker = new BaseMaker(this.context);
         ContentValues values = new ContentValues(1);
         values.put(field, value);
-// update all books where the title is 'android'
-        int status = cupboard().withDatabase(baseMaker.getWritableDatabase()).update(Comic.class, values, "_id = ?", id.toString());
-        return status;
+        return cupboard().withDatabase(baseMaker.getWritableDatabase()).update(Comic.class, values, "_id = ?", id.toString());
+
     }
 
-    public Long insertComic(Comic comic) {
+    public Long Insert(Comic comic) {
         baseMaker = new BaseMaker(this.context);
         return cupboard().withDatabase(baseMaker.getWritableDatabase()).put(comic);
     }

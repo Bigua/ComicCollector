@@ -2,15 +2,13 @@ package me.bigua.comiccollector.AbstBase;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.os.Environment;
 import android.util.Log;
 import me.bigua.comiccollector.AbstBase.Handlers.*;
 import me.bigua.comiccollector.AbstBase.Models.*;
 import me.bigua.comiccollector.AsyncDelegate;
+import me.bigua.comiccollector.DealWithFiles;
 import me.bigua.comiccollector.DownloadImage;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +65,7 @@ public class DataProxy implements AsyncDelegate {
 
 
         Comic comic = new Comic(name, year, cover, publi, number, type, lang, complete, have);
-        id = ch.insertComic(comic);
+        id = ch.Insert(comic);
         comic.setId(id);
 
         if (raw.containsKey("author")) {
@@ -82,8 +80,8 @@ public class DataProxy implements AsyncDelegate {
     /**
      * Lida com a situação de multiplos autores
      *
-     * @param id
-     * @param author
+     * @param id     id do comic salvo
+     * @param author autor do comic salvo
      */
     private void dealWithAuthors(Long id, String author) {
         String[] authors = author.split(",");
@@ -135,40 +133,8 @@ public class DataProxy implements AsyncDelegate {
 
     @Override
     public void asyncComplete(Object success) {
-        String name = "cover" + System.currentTimeMillis();
-        String cover = this.savebitmap(name, (Bitmap) success);
-        Log.wtf("cover", cover);
-        int status = ch.updateComic("cover", cover, id);
-        Log.wtf("status", String.valueOf(status));
-    }
-
-    private String savebitmap(String filename, Bitmap bmp) {
-        String folderPath = Environment.getExternalStorageDirectory() + "/ComicCollector";
-        File folder = new File(folderPath);
-        String filepath = "";
-        boolean success = true;
-        if (!folder.exists()) {
-            success = folder.mkdir();
-        }
-        if (success) {
-            FileOutputStream outStream = null;
-            File file = new File(folderPath, filename + ".png");
-            if (file.exists()) {
-                file.delete();
-                file = new File(folderPath, filename + ".png");
-                Log.e("file exist", "" + file + ",Bitmap= " + filename);
-            }
-            try {
-                outStream = new FileOutputStream(file);
-                bmp.compress(Bitmap.CompressFormat.PNG, 100, outStream);
-                outStream.flush();
-                outStream.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            Log.e("file", "" + file);
-            return file.toString();
-        }
-        return filepath;
+        DealWithFiles deal = new DealWithFiles();
+        String cover = deal.saveBitmap("cover" + System.currentTimeMillis(), (Bitmap) success);
+        ch.Update("cover", cover, id);
     }
 }

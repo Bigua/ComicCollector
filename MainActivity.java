@@ -1,6 +1,5 @@
 package me.bigua.comiccollector;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
@@ -159,13 +158,6 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
-        Fragment myFragment = getFragmentManager().findFragmentByTag("from_internet");
-//
-//        if (backBundle.containsKey("url")) {
-//            Log.wtf("i've got the ", "key");
-//            Log.wtf("url", (String) backBundle.get("url"));
-//        }
     }
 
     public void putInBundle(String la, String le) {

@@ -1,9 +1,15 @@
 package me.bigua.comiccollector;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.*;
 import android.view.animation.AlphaAnimation;
 import android.view.inputmethod.InputMethodManager;
@@ -12,6 +18,8 @@ import com.squareup.picasso.Picasso;
 import me.bigua.comiccollector.AbstBase.DataProxy;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +31,8 @@ import java.util.Map;
 public class AddFragment extends Fragment implements View.OnClickListener {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+    File coverFile;
     private View view;
     private Switch wish;
     private EditText title;
@@ -39,12 +48,8 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     private TextView fields;
     private ImageView cover;
     private String url;
-
-    private Button from_internet;
-
     private LinearLayout layout;
     private ScrollView scroll;
-//    private TextView success;
 
     public static AddFragment newInstance(int sectionNumber) {
         AddFragment fragment = new AddFragment();
@@ -73,30 +78,15 @@ public class AddFragment extends Fragment implements View.OnClickListener {
         universe = (EditText) view.findViewById(R.id.universe);
         complete = (Switch) view.findViewById(R.id.complete);
         cover = (ImageView) view.findViewById(R.id.cover);
-        from_internet = (Button) view.findViewById(R.id.from_internet);
+        Button from_internet = (Button) view.findViewById(R.id.from_internet);
+        Button camera = (Button) view.findViewById(R.id.camera);
 
         from_internet.setOnClickListener(this);
+        camera.setOnClickListener(this);
         fields.setOnClickListener(this);
-        setCover(null);
         setHasOptionsMenu(true);
         ((MainActivity) getActivity()).setActionBarTitle(R.string.add_comic);
         return view;
-    }
-
-    public void setCover(final String url) {
-
-        if (url != null) {
-            view.post(new Runnable() {
-                @Override
-                public void run() {
-                    cover.getLayoutParams().height = cover.getWidth();
-                    Picasso.with(view.getContext()).load(url)
-                            .resize(540, (int) (540 * 1.60))
-                            .into(cover);
-                }
-            });
-        }
-
     }
 
     public void getValues(View view) {
@@ -152,17 +142,13 @@ public class AddFragment extends Fragment implements View.OnClickListener {
         if (this.url != null) {
             raw.put("cover", this.url);
         }
-
-
         this.saveComic(view, raw);
-
     }
 
     public void saveComic(View view, Map<String, String> raw) {
         DataProxy dataproxy = new DataProxy(view.getContext());
         dataproxy.persistComic(raw);
         Scroll(ScrollView.FOCUS_UP);
-//        comeIn(success);
     }
 
     @Override
@@ -228,17 +214,77 @@ public class AddFragment extends Fragment implements View.OnClickListener {
                     type.setError(getText(R.string.not_empty) + " para buscar capa");
                 }
                 break;
+            case R.id.camera:
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+                break;
+
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        String url = String.valueOf(((MainActivity) getActivity()).backBundle.get("url"));
-        this.url = url;
-        if (url != null) {
+        if (((MainActivity) getActivity()).backBundle.get("url") != null) {
+            this.url = String.valueOf(((MainActivity) getActivity()).backBundle.get("url"));
             this.setCover(url);
         }
+        if (coverFile != null) {
+            this.setCover(coverFile);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                Bitmap bmp = (Bitmap) data.getExtras().get("data");
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+//                cover.setImageBitmap(bitmap);
+                this.saveCoverFromCamera("cover" + System.currentTimeMillis(), bitmap);
+            }
+        }
+    }
+
+    public void saveCoverFromCamera(String filename, Bitmap bmp) {
+        DealWithFiles deal = new DealWithFiles();
+        String coverpath = deal.saveBitmap(filename, bmp);
+        File f = new File(coverpath);
+        coverFile = f;
+        this.setCover(f);
+    }
+
+    public void setCover(File f) {
+        Picasso.with(view.getContext()).load(f)
+                .fit().centerCrop()
+                .into(cover);
+    }
+
+    public void setCover(String url) {
+        Picasso.with(view.getContext()).load(url)
+                .fit().centerCrop()
+                .into(cover);
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if (this.coverFile != null) {
+            outState.putString("file", this.coverFile.toString());
+        }
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        Log.wtf("onViewStateRestored", "aqui");
+        if (savedInstanceState != null) {
+            this.coverFile = new File(savedInstanceState.getString("file"));
+        }
+        super.onViewStateRestored(savedInstanceState);
     }
 
     public void Scroll(final int roll) {
@@ -270,11 +316,10 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     public void hideKeyboard() {
         View v = getActivity().getWindow().getCurrentFocus();
         if (v != null) {
-            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getActivity()
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         }
     }
-
-
 }
 

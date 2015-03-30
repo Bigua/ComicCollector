@@ -1,6 +1,5 @@
 package me.bigua.comiccollector;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -14,7 +13,6 @@ import java.net.URL;
 public class DownloadImage extends AsyncTask<String, Void, Object> {
 
     private Context context;
-    private ProgressDialog progress;
     private AsyncDelegate<Object> onComplete;
 
     public DownloadImage(Context context) {

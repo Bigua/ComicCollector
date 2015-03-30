@@ -1,7 +1,6 @@
 package me.bigua.comiccollector;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +36,6 @@ public class ListAdapter extends ArrayAdapter<Comic> {
         if (rowView == null) {
             rowView = vi.inflate(R.layout.item_list, parent, false);
             vh = new ViewHolder();
-
             vh.name = (TextView) rowView.findViewById(R.id.nameView);
             vh.number = (TextView) rowView.findViewById(R.id.numberView);
             vh.img = (ImageView) rowView.findViewById(R.id.icon);
@@ -45,14 +43,9 @@ public class ListAdapter extends ArrayAdapter<Comic> {
         } else {
             vh = (ViewHolder) rowView.getTag();
         }
-
         if (comic.getCover() != null) {
-//            Log.wtf("coverfrom", comic.getCover());
-
             File f = new File(comic.getCover());
-
             if (f.exists()) {
-                Log.wtf("criou o file", comic.getCover());
                 Picasso.with(this.context).load(f).fit().centerCrop().into(vh.img);
             } else {
                 Picasso.with(this.context).load((comic.getCover())).fit().centerCrop().into(vh.img);
@@ -62,7 +55,6 @@ public class ListAdapter extends ArrayAdapter<Comic> {
         if (comic.getNumber() != null) {
             vh.number.setText("#" + comic.getNumber());
         }
-
         return rowView;
     }
 
@@ -72,5 +64,4 @@ public class ListAdapter extends ArrayAdapter<Comic> {
         TextView number;
         ImageView img;
     }
-
 }
