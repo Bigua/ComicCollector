@@ -16,12 +16,12 @@ import java.util.List;
  * Created by Bigua on 3/23/15.
  * bigua.kun@gmail.com
  */
-public class CoverAdapter extends ArrayAdapter<UrlBundle> {
+public class CoverAdapter extends ArrayAdapter<UrlBundler> {
 
     private Context context;
-    private List<UrlBundle> objects;
+    private List<UrlBundler> objects;
 
-    public CoverAdapter(Context context, int resource, List<UrlBundle> objects) {
+    public CoverAdapter(Context context, int resource, List<UrlBundler> objects) {
         super(context, resource, objects);
         this.context = context;
         this.objects = objects;

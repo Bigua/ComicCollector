@@ -18,7 +18,7 @@ public class CoverFragment extends Fragment implements AsyncDelegate, AdapterVie
     public int oldId = -1;
     CoverAdapter coverAdapter;
     GridView grid_images;
-    private ArrayList<UrlBundle> listImages = new ArrayList<UrlBundle>();
+    private ArrayList<UrlBundler> listImages = new ArrayList<UrlBundler>();
 
     public static CoverFragment newInstance(int sectionNumber) {
         CoverFragment fragment = new CoverFragment();
@@ -52,8 +52,8 @@ public class CoverFragment extends Fragment implements AsyncDelegate, AdapterVie
     @Override
     public void asyncComplete(Object result) {
         for (String url : (ArrayList<String>) result) {
-            UrlBundle urlBundle = new UrlBundle(url, Boolean.FALSE);
-            this.coverAdapter.add(urlBundle);
+            UrlBundler urlBundler = new UrlBundler(url, Boolean.FALSE);
+            this.coverAdapter.add(urlBundler);
         }
     }
 
