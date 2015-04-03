@@ -22,10 +22,6 @@ public class UrlMixer {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public Boolean isSelected() {
         return selected;
     }
