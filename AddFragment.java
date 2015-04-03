@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.*;
 import android.view.animation.AlphaAnimation;
 import android.view.inputmethod.InputMethodManager;
@@ -32,20 +31,11 @@ public class AddFragment extends Fragment implements View.OnClickListener {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
-    File coverFile;
+    private File coverFile;
     private View view;
-    private Switch wish;
-    private EditText title;
-    private EditText num;
-    private EditText type;
-    private EditText author;
-    private Switch complete;
-    private EditText galaxy;
-    private EditText universe;
-    private EditText publi;
-    private EditText year;
-    private EditText lang;
-    private TextView fields;
+    private Switch wish, complete;
+    private EditText title, num, type, author, galaxy, universe, publi, year, lang;
+    private TextView fields, hint;
     private ImageView cover;
     private String url;
     private LinearLayout layout;
@@ -72,6 +62,7 @@ public class AddFragment extends Fragment implements View.OnClickListener {
         type = (EditText) view.findViewById(R.id.type);
         wish = (Switch) view.findViewById(R.id.wish_list);
         fields = (TextView) view.findViewById(R.id.fields_add);
+        hint = (TextView) view.findViewById(R.id.hint);
         scroll = (ScrollView) view.findViewById(R.id.scrollView);
         layout = (LinearLayout) view.findViewById(R.id.more_fields);
         galaxy = (EditText) view.findViewById(R.id.galaxy);
@@ -89,15 +80,16 @@ public class AddFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
-    public void getValues(View view) {
-
-        Map<String, String> raw = new HashMap<String, String>();
+    private void getValues(View view) {
+        Map<String, String> raw = new HashMap<>();
         if (wish.isChecked()) {
             raw.put("wishlist", "true");
         }
 
         if (complete.isChecked()) {
             raw.put("complete", "true");
+        } else {
+            raw.put("complete", "false");
         }
 
         if (StringUtils.isBlank(title.getText())) {
@@ -142,13 +134,20 @@ public class AddFragment extends Fragment implements View.OnClickListener {
         if (this.url != null) {
             raw.put("cover", this.url);
         }
+        if (this.coverFile != null) {
+            raw.put("cover", this.coverFile.toString());
+        }
         this.saveComic(view, raw);
     }
 
-    public void saveComic(View view, Map<String, String> raw) {
+    private void saveComic(View view, Map<String, String> raw) {
         DataProxy dataproxy = new DataProxy(view.getContext());
         dataproxy.persistComic(raw);
         Scroll(ScrollView.FOCUS_UP);
+        this.cleanFields();
+        Toast toast = Toast.makeText(getActivity(), "Salvo com sucesso", Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.TOP, 0, 0);
+        toast.show();
     }
 
     @Override
@@ -162,15 +161,11 @@ public class AddFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
-
             case R.id.menu_add:
 //                Toast.makeText(getActivity(), "botao ", Toast.LENGTH_SHORT).show();
                 this.getValues(getView());
-
                 break;
-
             case R.id.menu_settings:
 //                mSearchCheck = true;
 //                Toast.makeText(getActivity(), R.string.search, Toast.LENGTH_SHORT).show();
@@ -190,36 +185,40 @@ public class AddFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.from_internet:
                 if (StringUtils.isNotBlank(title.getText()) && StringUtils.isNotBlank(type.getText())) {
-                    Fragment newFragment;
-                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                    newFragment = new ImageFragment();
-                    Bundle bundle = new Bundle();
-                    String param1 = title.getText() + "+" + num.getText() + "+" + type.getText() + "+cover";
-                    param1 = param1.trim();
-                    param1 = param1.replace(" ", "+");
-                    bundle.putString("param1", param1);
-                    String param2 = title.getText() + "+" + num.getText();
-                    param2 = param2.trim();
-                    param2 = param2.replace(" ", "+");
-                    bundle.putString("param2", param2);
-                    newFragment.setArguments(bundle);
-                    // Replace whatever is in the fragment_container view with this fragment,
-                    transaction.replace(R.id.container, newFragment, "from_internet");
-                    // and add the transaction to the back stack
-                    transaction.addToBackStack("from_internet");
-                    // Commit the transaction
-                    transaction.commit();
+                    this.getCoversFromGoogle();
                 } else {
-                    title.setError(getText(R.string.not_empty) + " para buscar capa");
-                    type.setError(getText(R.string.not_empty) + " para buscar capa");
+                    if (StringUtils.isBlank(title.getText())) {
+                        title.setError(getText(R.string.not_empty));
+                    }
+                    if (StringUtils.isBlank(type.getText())) {
+                        type.setError(getText(R.string.not_empty));
+                    }
                 }
                 break;
             case R.id.camera:
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
                 break;
-
         }
+    }
+
+    private void getCoversFromGoogle() {
+        Fragment newFragment;
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        newFragment = new CoverFragment();
+        Bundle bundle = new Bundle();
+        String param1 = title.getText() + "+" + num.getText() + "+" + type.getText() + "+cover";
+        param1 = param1.trim();
+        param1 = param1.replace(" ", "+");
+        bundle.putString("param1", param1);
+        String param2 = title.getText() + "+" + num.getText();
+        param2 = param2.trim();
+        param2 = param2.replace(" ", "+");
+        bundle.putString("param2", param2);
+        newFragment.setArguments(bundle);
+        transaction.replace(R.id.container, newFragment, "from_internet");
+        transaction.addToBackStack("from_internet");
+        transaction.commit();
     }
 
     @Override
@@ -249,21 +248,23 @@ public class AddFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void saveCoverFromCamera(String filename, Bitmap bmp) {
+    private void saveCoverFromCamera(String filename, Bitmap bmp) {
         DealWithFiles deal = new DealWithFiles();
         String coverpath = deal.saveBitmap(filename, bmp);
         File f = new File(coverpath);
-        coverFile = f;
+        this.coverFile = f;
         this.setCover(f);
     }
 
-    public void setCover(File f) {
+    private void setCover(File f) {
+        this.url = null;
         Picasso.with(view.getContext()).load(f)
                 .fit().centerCrop()
                 .into(cover);
     }
 
-    public void setCover(String url) {
+    private void setCover(String url) {
+        this.coverFile = null;
         Picasso.with(view.getContext()).load(url)
                 .fit().centerCrop()
                 .into(cover);
@@ -280,14 +281,30 @@ public class AddFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
-        Log.wtf("onViewStateRestored", "aqui");
         if (savedInstanceState != null) {
             this.coverFile = new File(savedInstanceState.getString("file"));
         }
         super.onViewStateRestored(savedInstanceState);
     }
 
-    public void Scroll(final int roll) {
+    private void cleanFields() {
+        title.setText("");
+        num.setText("");
+        type.setText("");
+        author.setText("");
+        galaxy.setText("");
+        universe.setText("");
+        publi.setText("");
+        year.setText("");
+        lang.setText("");
+        wish.setChecked(false);
+        complete.setChecked(false);
+        coverFile = null;
+        url = null;
+        this.setCover("null");
+    }
+
+    private void Scroll(final int roll) {
         scroll.post(new Runnable() {
             @Override
             public void run() {
@@ -296,24 +313,25 @@ public class AddFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    public void comeIn(View v) {
+    private void comeIn(View v) {
         AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
         fadeIn.setDuration(1200);
-        fadeIn.setFillAfter(true);
+        fadeIn.setFillAfter(Boolean.TRUE);
         v.startAnimation(fadeIn);
+        v.setClickable(Boolean.FALSE);
         v.setVisibility(View.VISIBLE);
     }
 
-    public void goodBye(View v) {
+    private void goodBye(View v) {
         AlphaAnimation fadeOut = new AlphaAnimation(1.0f, 0.0f);
         fadeOut.setDuration(1200);
-        v.setVisibility(View.GONE);
         fadeOut.setFillAfter(Boolean.TRUE);
         v.startAnimation(fadeOut);
         v.setClickable(Boolean.FALSE);
+        v.setVisibility(View.GONE);
     }
 
-    public void hideKeyboard() {
+    private void hideKeyboard() {
         View v = getActivity().getWindow().getCurrentFocus();
         if (v != null) {
             InputMethodManager imm = (InputMethodManager) getActivity()
