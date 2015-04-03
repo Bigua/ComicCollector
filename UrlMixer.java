@@ -4,12 +4,12 @@ package me.bigua.comiccollector;
  * Created by Bigua on 4/3/15.
  * bigua.kun@gmail.com
  */
-public class UrlBundler {
+public class UrlMixer {
 
     private String url;
     private Boolean selected;
 
-    public UrlBundler(String url, Boolean selected) {
+    public UrlMixer(String url, Boolean selected) {
         this.url = url;
         this.selected = selected;
     }
