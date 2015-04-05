@@ -29,9 +29,13 @@ public class BaseMaker extends SQLiteOpenHelper {
 
     public void onCreate(SQLiteDatabase db) {
         cupboard().withDatabase(db).createTables();
+        Author author = new Author("Alan Moore");
+        cupboard().withDatabase(db).put(author);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         cupboard().withDatabase(db).upgradeTables();
     }
+
+
 }

@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 import br.liveo.interfaces.NavigationLiveoListener;
 import br.liveo.navigationliveo.NavigationLiveo;
+import me.bigua.comiccollector.Fragments.AddFormFragment;
+import me.bigua.comiccollector.Fragments.ListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,7 +114,7 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
         switch (position) {
             case 0:
                 fragmentTransaction.replace(R.id.container,
-                        AddFragment.newInstance(position + 1))
+                        AddFormFragment.newInstance(position + 1))
                         .commit();
                 break;
             case 1:

@@ -1,4 +1,4 @@
-package me.bigua.comiccollector;
+package me.bigua.comiccollector.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import me.bigua.comiccollector.*;
 
 import java.util.ArrayList;
 
@@ -61,7 +62,6 @@ public class CoverFragment extends Fragment implements AsyncDelegate, AdapterVie
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         TextView HiddenUrl = (TextView) view.findViewById(R.id.hidden_url);
         ((MainActivity) view.getContext()).putInBundle("url", (String) HiddenUrl.getText());
-
         if (oldId != -1) {
             listImages.get(oldId).setSelected(Boolean.FALSE);
             view = parent.getChildAt(oldId);

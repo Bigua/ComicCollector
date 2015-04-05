@@ -1,4 +1,5 @@
-package me.bigua.comiccollector;
+package me.bigua.comiccollector.Fragments;
+
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,12 +10,16 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.*;
 import android.view.animation.AlphaAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.squareup.picasso.Picasso;
+import com.tokenautocomplete.TokenCompleteTextView;
 import me.bigua.comiccollector.AbstBase.DataProxy;
+import me.bigua.comiccollector.AbstBase.Handlers.AuthorHandlers;
+import me.bigua.comiccollector.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -23,26 +28,32 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Bigua on 2/10/15.
- * bigua.kun@gmail.com
+ * A simple {@link Fragment} subclass.
  */
+public class AddFormFragment extends Fragment implements View.OnClickListener, TokenCompleteTextView.TokenListener {
 
-public class AddFragment extends Fragment implements View.OnClickListener {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private File coverFile;
     private View view;
     private Switch wish, complete;
-    private EditText title, num, type, author, galaxy, universe, publi, year, lang;
-    private TextView fields, hint;
+    private EditText title, num, type, galaxy, universe, publi, year, lang;
+    private TextView fields;
     private ImageView cover;
     private String url;
     private LinearLayout layout;
     private ScrollView scroll;
 
-    public static AddFragment newInstance(int sectionNumber) {
-        AddFragment fragment = new AddFragment();
+    private AuthorCompletionView authors;
+
+
+    public AddFormFragment() {
+        // Required empty public constructor
+    }
+
+    public static AddFormFragment newInstance(int sectionNumber) {
+        AddFormFragment fragment = new AddFormFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
@@ -51,18 +62,17 @@ public class AddFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_add, container, false);
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_add_form, container, false);
 
         title = (EditText) view.findViewById(R.id.comic_title);
         num = (EditText) view.findViewById(R.id.num_comic);
-        author = (EditText) view.findViewById(R.id.author);
         year = (EditText) view.findViewById(R.id.year);
         publi = (EditText) view.findViewById(R.id.publisher);
         lang = (EditText) view.findViewById(R.id.lang);
         type = (EditText) view.findViewById(R.id.type);
         wish = (Switch) view.findViewById(R.id.wish_list);
         fields = (TextView) view.findViewById(R.id.fields_add);
-        hint = (TextView) view.findViewById(R.id.hint);
         scroll = (ScrollView) view.findViewById(R.id.scrollView);
         layout = (LinearLayout) view.findViewById(R.id.more_fields);
         galaxy = (EditText) view.findViewById(R.id.galaxy);
@@ -71,14 +81,25 @@ public class AddFragment extends Fragment implements View.OnClickListener {
         cover = (ImageView) view.findViewById(R.id.cover);
         Button from_internet = (Button) view.findViewById(R.id.from_internet);
         Button camera = (Button) view.findViewById(R.id.camera);
+        authors = (AuthorCompletionView) view.findViewById(R.id.searchView);
 
         from_internet.setOnClickListener(this);
         camera.setOnClickListener(this);
         fields.setOnClickListener(this);
+
+        AuthorHandlers authorHandlers = new AuthorHandlers(getActivity().getBaseContext());
+
+        TokenAdapter tokenAdapter = new TokenAdapter(getActivity().getBaseContext(), R.layout.author_layout, authorHandlers.List());
+
+        authors.setAdapter(tokenAdapter);
+        authors.setTokenListener(this);
+
+
         setHasOptionsMenu(true);
         ((MainActivity) getActivity()).setActionBarTitle(R.string.add_comic);
         return view;
     }
+
 
     private void getValues(View view) {
         Map<String, String> raw = new HashMap<>();
@@ -107,9 +128,9 @@ public class AddFragment extends Fragment implements View.OnClickListener {
             raw.put("number", num.getText().toString().trim());
         }
 
-        if (StringUtils.isNotBlank(author.getText())) {
-            raw.put("author", author.getText().toString().trim());
-        }
+//        if (StringUtils.isNotBlank(author.getText())) {
+//            raw.put("author", author.getText().toString().trim());
+//        }
 
         if (StringUtils.isNotBlank(publi.getText())) {
             raw.put("publi", publi.getText().toString().trim());
@@ -203,7 +224,7 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     }
 
     private void getCoversFromGoogle() {
-        Fragment newFragment;
+        android.support.v4.app.Fragment newFragment;
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         newFragment = new CoverFragment();
         Bundle bundle = new Bundle();
@@ -291,7 +312,7 @@ public class AddFragment extends Fragment implements View.OnClickListener {
         title.setText("");
         num.setText("");
         type.setText("");
-        author.setText("");
+        authors.setText("");
         galaxy.setText("");
         universe.setText("");
         publi.setText("");
@@ -339,5 +360,28 @@ public class AddFragment extends Fragment implements View.OnClickListener {
             imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         }
     }
-}
 
+    private void updateTokenConfirmation() {
+        StringBuilder sb = new StringBuilder("Current tokens:\n");
+        for (Object token : authors.getObjects()) {
+            sb.append(token.toString());
+            sb.append("\n");
+        }
+        //  ((TextView)findViewById(R.id.tokens)).setText(sb);
+    }
+
+    @Override
+    public void onTokenAdded(Object token) {
+//        ((TextView)findViewById(R.id.lastEvent)).setText("Added: " + token);
+//        updateTokenConfirmation();
+//        System.out.println();
+        Log.wtf("aqui", "nessa merda");
+    }
+
+    @Override
+    public void onTokenRemoved(Object token) {
+        //((TextView)findViewById(R.id.lastEvent)).setText("Removed: " + token);
+        //updateTokenConfirmation();
+    }
+
+}

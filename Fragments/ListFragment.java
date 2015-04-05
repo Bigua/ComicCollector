@@ -1,4 +1,4 @@
-package me.bigua.comiccollector;
+package me.bigua.comiccollector.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import me.bigua.comiccollector.AbstBase.Handlers.ComicHandlers;
+import me.bigua.comiccollector.ListAdapter;
+import me.bigua.comiccollector.MainActivity;
+import me.bigua.comiccollector.R;
 
 /**
  * Created by Bigua on 2/17/15.

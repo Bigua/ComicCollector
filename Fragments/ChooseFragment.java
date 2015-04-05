@@ -1,4 +1,4 @@
-package me.bigua.comiccollector;
+package me.bigua.comiccollector.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import me.bigua.comiccollector.MainActivity;
+import me.bigua.comiccollector.R;
 //import com.google.zxing.integration.android.IntentIntegrator;
 //import com.google.zxing.integration.android.IntentResult;
 
@@ -69,7 +71,7 @@ public class ChooseFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
 
             case R.id.manual:
-                newFragment = new AddFragment();
+                newFragment = new AddFormFragment();
                 // Replace whatever is in the fragment_container view with this fragment,
                 transaction.replace(R.id.container, newFragment);
                 // and add the transaction to the back stack
