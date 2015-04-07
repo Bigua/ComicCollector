@@ -1,4 +1,4 @@
-package me.bigua.comiccollector;
+package me.bigua.comiccollector.Utils;
 
 /**
  * Created by Bigua on 3/23/15.

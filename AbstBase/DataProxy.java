@@ -5,9 +5,9 @@ import android.graphics.Bitmap;
 import android.util.Log;
 import me.bigua.comiccollector.AbstBase.Handlers.*;
 import me.bigua.comiccollector.AbstBase.Models.*;
-import me.bigua.comiccollector.AsyncDelegate;
-import me.bigua.comiccollector.DealWithFiles;
-import me.bigua.comiccollector.DownloadImage;
+import me.bigua.comiccollector.Utils.AsyncDelegate;
+import me.bigua.comiccollector.Utils.DealWithFiles;
+import me.bigua.comiccollector.Utils.DownloadImage;
 
 import java.util.ArrayList;
 import java.util.List;

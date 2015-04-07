@@ -10,6 +10,7 @@ import br.liveo.interfaces.NavigationLiveoListener;
 import br.liveo.navigationliveo.NavigationLiveo;
 import me.bigua.comiccollector.Fragments.AddFormFragment;
 import me.bigua.comiccollector.Fragments.ListFragment;
+import me.bigua.comiccollector.Fragments.WishListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,25 +51,21 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
         List<String> mListNameItem = new ArrayList<String>();
         mListNameItem.add(0, getString(R.string.add_comic));
         mListNameItem.add(1, getString(R.string.list_comics));
-        mListNameItem.add(2, "Wishlist");
-        mListNameItem.add(3, "lalala");
-        mListNameItem.add(4, "lalala"); //This item will be a subHeader
-        mListNameItem.add(5, "lalala");
-        mListNameItem.add(6, "lalala");
+        mListNameItem.add(2, getString(R.string.whish_list));
 
         // icons list items
         List<Integer> mListIconItem = new ArrayList<Integer>();
         mListIconItem.add(0, 0);
-        mListIconItem.add(1, 0); //Item no icon set 0
-        mListIconItem.add(2, 0); //Item no icon set 0
+        mListIconItem.add(1, 0);
+        mListIconItem.add(2, 0);
         mListIconItem.add(3, 0);
-        mListIconItem.add(4, 0); //When the item is a subHeader the value of the icon 0
+        mListIconItem.add(4, 0);
         mListIconItem.add(5, 0);
         mListIconItem.add(6, 0);
 
         //{optional} - Among the names there is some subheader, you must indicate it here
-        List<Integer> mListHeaderItem = new ArrayList<Integer>();
-        mListHeaderItem.add(4);
+//        List<Integer> mListHeaderItem = new ArrayList<Integer>();
+//        mListHeaderItem.add(4);
 
         //{optional} - Among the names there is any item counter, you must indicate it (position) and the value here
 
@@ -79,7 +76,7 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
         //If not please use the FooterDrawer use the setFooterVisible(boolean visible) method with value false
 //        this.setFooterInformationDrawer(R.string.settings, R.drawable.ic_settings_black_24dp);
         this.setFooterNavigationVisible(false);
-        this.setNavigationAdapter(mListNameItem, mListIconItem, mListHeaderItem, null);
+        this.setNavigationAdapter(mListNameItem, mListIconItem, null, null);
     }
 
 
@@ -118,21 +115,14 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
                         .commit();
                 break;
             case 1:
-                fragmentTransaction.replace(
-                        R.id.container,
+                fragmentTransaction.replace(R.id.container,
                         ListFragment.newInstance(position + 1))
                         .commit();
                 break;
             case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-//                Intent intent = new Intent(this, LoginActivity.class);
-//                startActivity(intent);
-                finish();
+                fragmentTransaction.replace(R.id.container,
+                        WishListFragment.newInstance(position + 1))
+                        .commit();
                 break;
         }
 
@@ -144,17 +134,14 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
 
     @Override
     public void onClickUserPhotoNavigation(View view) {
-
     }
 
     @Override
     public void onClickFooterItemNavigation(View view) {
-
     }
 
     @Override
     public void onPrepareOptionsMenuNavigation(Menu menu, int i, boolean b) {
-
     }
 
     @Override
@@ -164,8 +151,6 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
 
     public void putInBundle(String la, String le) {
         backBundle.putString(la, le);
-
-
     }
 }
 

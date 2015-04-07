@@ -1,4 +1,4 @@
-package me.bigua.comiccollector;
+package me.bigua.comiccollector.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.tokenautocomplete.FilteredArrayAdapter;
 import me.bigua.comiccollector.AbstBase.Models.Author;
+import me.bigua.comiccollector.R;
 
 import java.util.List;
 

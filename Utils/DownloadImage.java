@@ -1,4 +1,4 @@
-package me.bigua.comiccollector;
+package me.bigua.comiccollector.Utils;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;

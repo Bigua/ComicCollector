@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.*;
 import android.view.animation.AlphaAnimation;
 import android.view.inputmethod.InputMethodManager;
@@ -19,7 +18,11 @@ import com.squareup.picasso.Picasso;
 import com.tokenautocomplete.TokenCompleteTextView;
 import me.bigua.comiccollector.AbstBase.DataProxy;
 import me.bigua.comiccollector.AbstBase.Handlers.AuthorHandlers;
-import me.bigua.comiccollector.*;
+import me.bigua.comiccollector.Adapters.TokenAdapter;
+import me.bigua.comiccollector.MainActivity;
+import me.bigua.comiccollector.R;
+import me.bigua.comiccollector.Utils.AuthorCompletionView;
+import me.bigua.comiccollector.Utils.DealWithFiles;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -27,9 +30,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class AddFormFragment extends Fragment implements View.OnClickListener, TokenCompleteTextView.TokenListener {
 
 
@@ -65,6 +65,7 @@ public class AddFormFragment extends Fragment implements View.OnClickListener, T
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_add_form, container, false);
 
+        //capturing all itens from view
         title = (EditText) view.findViewById(R.id.comic_title);
         num = (EditText) view.findViewById(R.id.num_comic);
         year = (EditText) view.findViewById(R.id.year);
@@ -88,12 +89,9 @@ public class AddFormFragment extends Fragment implements View.OnClickListener, T
         fields.setOnClickListener(this);
 
         AuthorHandlers authorHandlers = new AuthorHandlers(getActivity().getBaseContext());
-
         TokenAdapter tokenAdapter = new TokenAdapter(getActivity().getBaseContext(), R.layout.author_layout, authorHandlers.List());
-
         authors.setAdapter(tokenAdapter);
         authors.setTokenListener(this);
-
 
         setHasOptionsMenu(true);
         ((MainActivity) getActivity()).setActionBarTitle(R.string.add_comic);
@@ -128,9 +126,9 @@ public class AddFormFragment extends Fragment implements View.OnClickListener, T
             raw.put("number", num.getText().toString().trim());
         }
 
-//        if (StringUtils.isNotBlank(author.getText())) {
-//            raw.put("author", author.getText().toString().trim());
-//        }
+        if (StringUtils.isNotBlank(authors.getText())) {
+            raw.put("author", authors.getText().toString().trim());
+        }
 
         if (StringUtils.isNotBlank(publi.getText())) {
             raw.put("publi", publi.getText().toString().trim());
@@ -309,7 +307,6 @@ public class AddFormFragment extends Fragment implements View.OnClickListener, T
     }
 
     private void cleanFields() {
-        title.setText("");
         num.setText("");
         type.setText("");
         authors.setText("");
@@ -361,21 +358,11 @@ public class AddFormFragment extends Fragment implements View.OnClickListener, T
         }
     }
 
-    private void updateTokenConfirmation() {
-        StringBuilder sb = new StringBuilder("Current tokens:\n");
-        for (Object token : authors.getObjects()) {
-            sb.append(token.toString());
-            sb.append("\n");
-        }
-        //  ((TextView)findViewById(R.id.tokens)).setText(sb);
-    }
-
     @Override
     public void onTokenAdded(Object token) {
 //        ((TextView)findViewById(R.id.lastEvent)).setText("Added: " + token);
 //        updateTokenConfirmation();
 //        System.out.println();
-        Log.wtf("aqui", "nessa merda");
     }
 
     @Override

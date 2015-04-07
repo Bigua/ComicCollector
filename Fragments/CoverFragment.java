@@ -9,7 +9,12 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import me.bigua.comiccollector.*;
+import me.bigua.comiccollector.Adapters.CoverAdapter;
+import me.bigua.comiccollector.MainActivity;
+import me.bigua.comiccollector.R;
+import me.bigua.comiccollector.Utils.AsyncDelegate;
+import me.bigua.comiccollector.Utils.GetImages;
+import me.bigua.comiccollector.Utils.UrlMixer;
 
 import java.util.ArrayList;
 

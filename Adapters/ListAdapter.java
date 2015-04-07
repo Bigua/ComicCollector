@@ -1,4 +1,4 @@
-package me.bigua.comiccollector;
+package me.bigua.comiccollector.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import me.bigua.comiccollector.AbstBase.Models.Comic;
+import me.bigua.comiccollector.R;
 
 import java.io.File;
 import java.util.List;
